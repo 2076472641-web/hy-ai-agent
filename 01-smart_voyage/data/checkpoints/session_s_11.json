@@ -1,0 +1,23 @@
+{
+  "session_id": "s_11",
+  "created_at": 1785572099.3282335,
+  "updated_at": 1785572101.3959506,
+  "messages": [
+    {
+      "id": "56ea004d-14d0-425b-b7dc-a96d2fb38b51",
+      "role": "user",
+      "content": "帮我查一下长沙的天气",
+      "metadata": {},
+      "created_at": 1785572099.3312364
+    },
+    {
+      "id": "eefeda81-4f4e-4371-83ba-b6d1253345cd",
+      "role": "assistant",
+      "content": "【天气查询】帮我查一未来3天：长沙的未来3天以晴为主，最高温29℃，最低温24",
+      "metadata": {},
+      "created_at": 1785572101.3959506
+    }
+  ],
+  "metadata": {},
+  "summary": ""
+}

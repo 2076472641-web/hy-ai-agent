@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# 环境
+.env
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 数据
+data/checkpoints/*
+!data/checkpoints/.gitkeep
+models/
+
+# 日志
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db

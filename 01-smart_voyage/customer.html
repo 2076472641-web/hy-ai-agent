@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>途景汇・文旅出行多智能体一体化系统</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft Yahei", sans-serif;
+    }
+    body {
+        background-image: url('picture.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        position: relative;
+        padding: 40px 20px;
+    }
+    body::before{
+        content:"";
+        position:fixed;
+        inset:0;
+        background-color: rgba(248, 251, 253, 0.65);
+        z-index:-1;
+    }
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    h1 {
+        text-align: center;
+        color: #1a2733;
+        margin-bottom: 16px;
+        font-size: 34px;
+        letter-spacing: 2px;
+        font-weight: 600;
+    }
+    .title-divider {
+        width: 120px;
+        height: 3px;
+        background: linear-gradient(90deg, #3489a8, #54b1c8);
+        margin: 0 auto 36px auto;
+        border-radius: 3px;
+    }
+    .box {
+        background: #ffffff;
+        padding: 32px;
+        border-radius: 18px;
+        box-shadow: 0 4px 16px rgba(37, 150, 190, 0.12);
+        margin-bottom: 26px;
+        border: 1px solid rgba(37, 150, 190, 0.08);
+    }
+    .row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+    }
+    .item {
+        flex: 1 1 260px;
+        min-width: 200px;
+    }
+    label {
+        display: block;
+        margin-bottom: 9px;
+        font-weight: 500;
+        color:#2c3e50;
+        font-size:16px;
+    }
+    input, select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #d8e2e8;
+        border-radius: 10px;
+        font-size: 16px;
+        outline:none;
+        background:#fcfefe;
+        transition: all 0.25s ease;
+    }
+    input:hover, select:hover{
+        border-color:#8ec5d8;
+    }
+    input:focus, select:focus{
+        border-color:#2596be;
+        box-shadow: 0 0 0 3px rgba(37, 150, 190, 0.12);
+    }
+    button {
+        padding: 15px 42px;
+        background: linear-gradient(135deg, #2596be, #30a9d1);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 17px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        font-weight:500;
+    }
+    button:hover {
+        background: linear-gradient(135deg, #1e7b9c, #2694b8);
+        transform: translateY(-2px);
+        box-shadow:0 4px 12px rgba(37, 150, 190, 0.22);
+    }
+    #result-area {
+        margin-top:12px;
+        padding:26px;
+        border:1px solid #e1edf3;
+        border-radius:12px;
+        line-height: 1.85;
+        font-size:16px;
+        white-space: pre-line;
+        color:#222;
+        background:#fbfefe;
+    }
+    .error-text{
+        color:#c0392b;
+    }
+    /* 结果分段样式 */
+    .plan-section {
+        background: #ffffff;
+        border: 1px solid #e1edf3;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        line-height: 1.8;
+    }
+    .plan-section:last-child { margin-bottom: 0; }
+    .plan-section h4 {
+        font-size: 17px;
+        margin-bottom: 8px;
+        color: #1a6b8a;
+        border-bottom: 1px dashed #d8e2e8;
+        padding-bottom: 6px;
+    }
+    .plan-section pre {
+        white-space: pre-line;
+        font-family: "Microsoft Yahei", sans-serif;
+        font-size: 15px;
+        color: #333;
+        margin: 0;
+    }
+    .plan-header {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a2733;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3489a8;
+    }
+    .result-actions {
+        text-align: right;
+        margin-top: 12px;
+    }
+    .btn-small {
+        padding: 6px 16px;
+        font-size: 13px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid #b0d4e3;
+        background: #f0f8fb;
+        color: #2596be;
+        transition: all 0.2s;
+    }
+    .btn-small:hover {
+        background: #2596be;
+        color: #fff;
+    }
+    .debug-info {
+        font-size: 12px;
+        color: #999;
+        margin-top: 10px;
+        padding: 8px 12px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border: 1px dashed #ddd;
+    }
+    .error-box {
+        text-align: center;
+        padding: 30px 20px;
+        color: #c0392b;
+    }
+    .error-box .error-icon { font-size: 36px; margin-bottom: 10px; }
+    .error-box .error-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .error-box .error-detail { font-size: 14px; color: #666; margin-bottom: 16px; }
+    .error-box .error-hint {
+        font-size: 13px; color: #888; background: #f8f9fa;
+        padding: 10px 14px; border-radius: 8px; margin-top: 10px;
+        text-align: left; line-height: 1.8;
+    }
+    .btn-retry {
+        padding: 10px 28px; font-size: 15px; border-radius: 8px;
+        cursor: pointer; border: none; color: #fff; margin-top: 12px;
+        background: linear-gradient(135deg, #2596be, #30a9d1);
+        transition: all 0.25s;
+    }
+    .btn-retry:hover {
+        background: linear-gradient(135deg, #1e7b9c, #2694b8);
+        transform: translateY(-1px);
+    }
+    input#dates {
+        cursor: text !important;
+    }
+
+    /* ============================================================
+       【新增】CitySelector 两套同构组件 样式（上下分开圆角卡片）
+       ============================================================ */
+    .city-card {
+        background: linear-gradient(180deg, #fbfdfe 0%, #ffffff 100%);
+        border: 1px solid #e3eff4;
+        border-radius: 16px;
+        padding: 20px 22px;
+        margin-bottom: 18px;
+        box-shadow: 0 2px 10px rgba(37, 150, 190, 0.05);
+    }
+    .city-card.depart {
+        border-left: 4px solid #30a9d1;
+    }
+    .city-card.dest {
+        border-left: 4px solid #49b97b;
+    }
+    .city-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a3a4a;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .city-card-title .tag {
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: 400;
+        color: #fff;
+    }
+    .city-card.depart .tag { background: #30a9d1; }
+    .city-card.dest   .tag { background: #49b97b; }
+
+    .city-search-wrap {
+        position: relative;
+    }
+    .city-selected {
+        background: #eaf7fb;
+        border: 1px solid #b7e0ec;
+        color: #1a6b8a;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .city-selected .clear-btn {
+        background: transparent;
+        border: none;
+        color: #888;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 2px 6px;
+        border-radius: 5px;
+        transition: all 0.2s;
+    }
+    .city-selected .clear-btn:hover {
+        background: #f33;
+        color: #fff;
+    }
+    .hot-tags {
+        display: flex;
+        gap: 8px;
+        padding: 4px 2px 10px 2px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .hot-tags::-webkit-scrollbar { display: none; }
+    .hot-tag {
+        flex-shrink: 0;
+        padding: 6px 14px;
+        background: #f2f9fc;
+        border: 1px solid #d3ebf2;
+        color: #256a83;
+        font-size: 13px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+    }
+    .hot-tag:hover {
+        background: #2596be;
+        color: #fff;
+        border-color: #2596be;
+    }
+    .hot-tag.active {
+        background: #2596be;
+        color: #fff;
+        border-color: #2596be;
+    }
+    /* -------- 出行偏好标签组（多选） -------- */
+    .pref-tags {
+        display: flex;
+        gap: 10px;
+        padding: 6px 2px 10px 2px;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .pref-tags::-webkit-scrollbar { display: none; }
+    .pref-tag {
+        flex-shrink: 0;
+        padding: 8px 16px;
+        background: #f5f8fa;
+        border: 1px solid #dde7ed;
+        color: #456;
+        font-size: 13px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.18s;
+        user-select: none;
+    }
+    .pref-tag:hover {
+        background: #e8f3f8;
+        color: #1a6b8a;
+        border-color: #aed8e6;
+    }
+    .pref-tag.selected {
+        background: linear-gradient(135deg, #2596be, #1a7ba0);
+        color: #fff;
+        border-color: #2596be;
+        box-shadow: 0 3px 10px rgba(37, 150, 190, 0.25);
+    }
+    .pref-tag.selected::before {
+        content: "✓ ";
+        font-weight: 600;
+    }
+    .suggest-box {
+        position: absolute;
+        left: 0; right: 0;
+        top: calc(100% + 4px);
+        background: #fff;
+        border: 1px solid #d3e4ec;
+        border-radius: 10px;
+        max-height: 260px;
+        overflow-y: auto;
+        z-index: 20;
+        box-shadow: 0 6px 20px rgba(37, 150, 190, 0.12);
+        display: none;
+    }
+    .suggest-box.show { display: block; }
+    .suggest-box li {
+        list-style: none;
+        padding: 10px 14px;
+        border-bottom: 1px dashed #eef5f8;
+        cursor: pointer;
+        font-size: 14px;
+        color: #223a4a;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .suggest-box li:last-child { border-bottom: none; }
+    .suggest-box li:hover {
+        background: #f2f9fc;
+        color: #1a6b8a;
+    }
+    .suggest-box li .sub {
+        font-size: 12px;
+        color: #999;
+    }
+    .suggest-box li.empty {
+        color: #bbb;
+        cursor: default;
+    }
+    .detail-addr {
+        margin-top: 12px;
+    }
+    .detail-addr input {
+        background: #fcfefe;
+        padding: 12px 14px;
+        font-size: 15px;
+    }
+    .detail-hint {
+        font-size: 12px;
+        color: #8a9ba5;
+        margin-top: 6px;
+        line-height: 1.6;
+    }
+    .form-row-inline {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: 20px;
+        margin-top: 8px;
+    }
+    @media (max-width: 780px) {
+        .form-row-inline { grid-template-columns: 1fr; gap: 16px; }
+    }
+    .validate-error {
+        border-color: #e67e7e !important;
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12) !important;
+        animation: shake 0.3s;
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-4px); }
+        75% { transform: translateX(4px); }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>途景汇・文旅出行多智能体一体化系统</h1>
+    <div class="title-divider"></div>
+
+    <div class="box">
+        <!-- ============ ① 出发城市组件 ============ -->
+        <div class="city-card depart" id="card-depart">
+            <div class="city-card-title">
+                <span>📍 出发城市</span>
+                <span class="tag">出发</span>
+            </div>
+            <!-- 选中城市后展示： -->
+            <div class="city-selected" id="sel-depart" style="display:none;"></div>
+            <div class="city-search-wrap">
+                <input id="search-depart"
+                       placeholder="搜索出发城市名，如：北京、上海、广州...（不允许选择省/区县）"
+                       autocomplete="off">
+                <ul class="suggest-box" id="sug-depart"></ul>
+            </div>
+            <div class="hot-tags" id="hot-depart"></div>
+
+            <!-- 详细位置（选填） -->
+            <div class="detail-addr">
+                <input id="departDetailAddress"
+                       placeholder="详细位置（选填，帮助酒店推荐更精准） 例如：外滩、虹桥火车站、迪士尼"
+                       maxlength="80">
+                <div class="detail-hint">先选择城市，填写商圈、车站或景区，系统会优先推荐该位置周边酒店。</div>
+            </div>
+        </div>
+
+        <!-- ============ ② 目的地城市组件 ============ -->
+        <div class="city-card dest" id="card-dest">
+            <div class="city-card-title">
+                <span>🎯 目的地城市</span>
+                <span class="tag">目的地</span>
+            </div>
+            <div class="city-selected" id="sel-dest" style="display:none;"></div>
+            <div class="city-search-wrap">
+                <input id="search-dest"
+                       placeholder="搜索目的地城市名，如：三亚、成都、西安...（不允许选择省/区县）"
+                       autocomplete="off">
+                <ul class="suggest-box" id="sug-dest"></ul>
+            </div>
+            <div class="hot-tags" id="hot-dest"></div>
+
+            <!-- 详细位置（选填） -->
+            <div class="detail-addr">
+                <input id="destDetailAddress"
+                       placeholder="详细位置（选填，帮助酒店推荐更精准） 例如：外滩、虹桥火车站、迪士尼"
+                       maxlength="80">
+                <div class="detail-hint">先选择城市，填写商圈、车站或景区，系统会优先推荐该位置周边酒店。</div>
+            </div>
+        </div>
+
+        <!-- ============ ③ 其他：日期 / 天数 / 人数 / 预算 ============ -->
+        <div class="form-row-inline">
+            <div class="item">
+                <label>出行日期</label>
+                <input id="dates" type="text" placeholder="例如：2026-08-15（可留空）" value="">
+            </div>
+            <div class="item">
+                <label>出行天数</label>
+                <input id="days" type="number" min="1" max="30" value="3"
+                       oninput="this.value=_sanitizeInt(this.value,1,30)"
+                       onchange="this.value=_sanitizeInt(this.value,1,30)">
+            </div>
+            <div class="item">
+                <label>出行人数 <span style="font-size:12px;color:#678;font-weight:400;">（总预算 = 物价 × 天数 × 人数）</span></label>
+                <input id="travelers" type="number" min="1" max="20" value="2"
+                       oninput="this.value=_sanitizeInt(this.value,1,20)"
+                       onchange="this.value=_sanitizeInt(this.value,1,20)">
+            </div>
+            <div class="item">
+                <label>预算档位 <span style="font-size:12px;color:#678;font-weight:400;">（选不同档位，酒店/美食/预算表都会不同）</span></label>
+                <select id="budget" onchange="_updateBudgetHint(this.value)">
+                    <option value="经济型">💰 经济型（按当地物价动态计算 · 省钱吃饱）</option>
+                    <option value="舒适型" selected>⚖️ 舒适型（按当地物价动态计算 · 平衡体验）</option>
+                    <option value="高端型">💎 高端型（按当地物价动态计算 · 品质拉满）</option>
+                </select>
+                <div id="budget-hint" style="margin-top:6px;font-size:13px;padding:6px 10px;border-radius:8px;background:#eaf7fb;color:#1a6b8a;line-height:1.6;">
+                    ⚖️ 当前：<strong>舒适型</strong>（总预算 = 目标城市物价 × 出行天数 × 出行人数 · 不含购物）<br>
+                    酒店：本地中档连锁/精品酒店（按当地真实行情）｜餐饮：本地口碑正餐/热门排队店（人均按当地真实物价）｜交通：网约车快车 + 近郊半天包车
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ ④ 出行偏好 ============ -->
+        <div class="item" style="margin-top:18px;">
+            <label>出行偏好（可多选）</label>
+            <div class="pref-tags" id="prefTags"></div>
+        </div>
+
+        <br>
+        <button onclick="sendPlan()">🧭 生成旅游方案</button>
+    </div>
+
+    <div class="box">
+        <h3 style="color:#254252;margin-bottom:12px;">📋 规划结果</h3>
+        <div id="conn-status" style="font-size:13px;padding:6px 12px;border-radius:6px;margin-bottom:10px;background:#f0f0f0;color:#666;">🔄 正在检测后端服务连接状态...</div>
+        <div id="result-area">等待生成行程方案……</div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+//  1) 城市数据（省 + 市，2 级；district 直接 null；组件只允许选中 level=city）
+//     所有 city.lng / city.lat 固定置 null，不使用 GPS/经纬度。
+// ============================================================
+const CITY_DB = [
+    // ----- 直辖市 -----
+    { level:"city", provinceId:"11", provinceName:"北京市", cityId:"110100", cityName:"北京", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"12", provinceName:"天津市", cityId:"120100", cityName:"天津", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"31", provinceName:"上海市", cityId:"310100", cityName:"上海", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"50", provinceName:"重庆市", cityId:"500100", cityName:"重庆", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 河北 -----
+    { level:"city", provinceId:"13", provinceName:"河北省", cityId:"130100", cityName:"石家庄", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"13", provinceName:"河北省", cityId:"130200", cityName:"唐山", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"13", provinceName:"河北省", cityId:"130300", cityName:"秦皇岛", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 山西 -----
+    { level:"city", provinceId:"14", provinceName:"山西省", cityId:"140100", cityName:"太原", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"14", provinceName:"山西省", cityId:"140200", cityName:"大同", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 内蒙古 -----
+    { level:"city", provinceId:"15", provinceName:"内蒙古", cityId:"150100", cityName:"呼和浩特", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"15", provinceName:"内蒙古", cityId:"150200", cityName:"包头", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"15", provinceName:"内蒙古", cityId:"152900", cityName:"呼伦贝尔", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 辽宁 -----
+    { level:"city", provinceId:"21", provinceName:"辽宁省", cityId:"210100", cityName:"沈阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"21", provinceName:"辽宁省", cityId:"210200", cityName:"大连", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 吉林 -----
+    { level:"city", provinceId:"22", provinceName:"吉林省", cityId:"220100", cityName:"长春", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 黑龙江 -----
+    { level:"city", provinceId:"23", provinceName:"黑龙江", cityId:"230100", cityName:"哈尔滨", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 江苏 -----
+    { level:"city", provinceId:"32", provinceName:"江苏省", cityId:"320100", cityName:"南京", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"32", provinceName:"江苏省", cityId:"320200", cityName:"无锡", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"32", provinceName:"江苏省", cityId:"320500", cityName:"苏州", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 浙江 -----
+    { level:"city", provinceId:"33", provinceName:"浙江省", cityId:"330100", cityName:"杭州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"33", provinceName:"浙江省", cityId:"330200", cityName:"宁波", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"33", provinceName:"浙江省", cityId:"330300", cityName:"温州", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 安徽 -----
+    { level:"city", provinceId:"34", provinceName:"安徽省", cityId:"340100", cityName:"合肥", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"34", provinceName:"安徽省", cityId:"341000", cityName:"黄山", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 福建 -----
+    { level:"city", provinceId:"35", provinceName:"福建省", cityId:"350100", cityName:"福州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"35", provinceName:"福建省", cityId:"350200", cityName:"厦门", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"35", provinceName:"福建省", cityId:"350300", cityName:"泉州", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 江西 -----
+    { level:"city", provinceId:"36", provinceName:"江西省", cityId:"360100", cityName:"南昌", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"36", provinceName:"江西省", cityId:"360200", cityName:"景德镇", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 山东 -----
+    { level:"city", provinceId:"37", provinceName:"山东省", cityId:"370100", cityName:"济南", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"37", provinceName:"山东省", cityId:"370200", cityName:"青岛", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"37", provinceName:"山东省", cityId:"370600", cityName:"烟台", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 河南 -----
+    { level:"city", provinceId:"41", provinceName:"河南省", cityId:"410100", cityName:"郑州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"41", provinceName:"河南省", cityId:"410300", cityName:"洛阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"41", provinceName:"河南省", cityId:"410500", cityName:"开封", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 湖北 -----
+    { level:"city", provinceId:"42", provinceName:"湖北省", cityId:"420100", cityName:"武汉", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 湖南 -----
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430100", cityName:"长沙", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430200", cityName:"株洲", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430300", cityName:"湘潭", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430400", cityName:"衡阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430500", cityName:"邵阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430600", cityName:"岳阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430700", cityName:"常德", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430900", cityName:"益阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"431000", cityName:"郴州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"431100", cityName:"永州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"431200", cityName:"怀化", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"431300", cityName:"娄底", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"43", provinceName:"湖南省", cityId:"430800", cityName:"张家界", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 广东 -----
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440100", cityName:"广州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440200", cityName:"韶关", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440300", cityName:"深圳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440400", cityName:"珠海", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440500", cityName:"汕头", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440600", cityName:"佛山", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440700", cityName:"江门", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440800", cityName:"湛江", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"440900", cityName:"茂名", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441200", cityName:"肇庆", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441300", cityName:"惠州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441400", cityName:"梅州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441500", cityName:"汕尾", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441600", cityName:"河源", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441700", cityName:"阳江", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441800", cityName:"清远", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"441900", cityName:"东莞", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"442000", cityName:"中山", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"445100", cityName:"潮州", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"445200", cityName:"揭阳", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"44", provinceName:"广东省", cityId:"445300", cityName:"云浮", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 广西 -----
+    { level:"city", provinceId:"45", provinceName:"广西", cityId:"450100", cityName:"南宁", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"45", provinceName:"广西", cityId:"450300", cityName:"桂林", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 海南 -----
+    { level:"city", provinceId:"46", provinceName:"海南省", cityId:"460100", cityName:"海口", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"46", provinceName:"海南省", cityId:"460200", cityName:"三亚", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 四川 -----
+    { level:"city", provinceId:"51", provinceName:"四川省", cityId:"510100", cityName:"成都", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"51", provinceName:"四川省", cityId:"510300", cityName:"自贡", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"51", provinceName:"四川省", cityId:"513200", cityName:"阿坝", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 贵州 -----
+    { level:"city", provinceId:"52", provinceName:"贵州省", cityId:"520100", cityName:"贵阳", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 云南 -----
+    { level:"city", provinceId:"53", provinceName:"云南省", cityId:"530100", cityName:"昆明", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"53", provinceName:"云南省", cityId:"532900", cityName:"大理", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"53", provinceName:"云南省", cityId:"530800", cityName:"丽江", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 西藏 -----
+    { level:"city", provinceId:"54", provinceName:"西藏", cityId:"540100", cityName:"拉萨", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 陕西 -----
+    { level:"city", provinceId:"61", provinceName:"陕西省", cityId:"610100", cityName:"西安", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 甘肃 -----
+    { level:"city", provinceId:"62", provinceName:"甘肃省", cityId:"620100", cityName:"兰州", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 青海 -----
+    { level:"city", provinceId:"63", provinceName:"青海省", cityId:"630100", cityName:"西宁", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 宁夏 -----
+    { level:"city", provinceId:"64", provinceName:"宁夏", cityId:"640100", cityName:"银川", districtId:null, districtName:null, lng:null, lat:null },
+    // ----- 新疆 -----
+    { level:"city", provinceId:"65", provinceName:"新疆", cityId:"650100", cityName:"乌鲁木齐", districtId:null, districtName:null, lng:null, lat:null },
+    { level:"city", provinceId:"65", provinceName:"新疆", cityId:"653200", cityName:"吐鲁番", districtId:null, districtName:null, lng:null, lat:null },
+];
+// 热门城市（横向标签顺序）
+const HOT_CITY_NAMES = [
+    "北京","上海","广州","深圳","成都","重庆","西安","杭州","南京","三亚",
+    "长沙","武汉","青岛","厦门","大理","昆明","哈尔滨","大连","苏州","沈阳"
+];
+
+// ============================================================
+//  2) CitySelector 同构组件工厂（传入 suffix: 'depart' / 'dest'）
+// ============================================================
+function createCitySelector(suffix) {
+    const state = {
+        /** 选中的城市对象（level=city；7+2 字段） */
+        location: null,
+        /** 详细位置：纯文本字符串，空串表示未填。不对字符串做解析拆分，后端自己解析。 */
+        detailAddress: "",
+    };
+    const el = {
+        card:       document.getElementById(`card-${suffix}`),
+        selected:   document.getElementById(`sel-${suffix}`),
+        search:     document.getElementById(`search-${suffix}`),
+        suggest:    document.getElementById(`sug-${suffix}`),
+        hot:        document.getElementById(`hot-${suffix}`),
+        detail:     document.getElementById(`${suffix}DetailAddress`),
+    };
+
+    // ---- 渲染热门城市标签 ----
+    function renderHotTags() {
+        el.hot.innerHTML = "";
+        HOT_CITY_NAMES.forEach(name => {
+            const city = CITY_DB.find(c => c.cityName === name);
+            if (!city) return;
+            const span = document.createElement("span");
+            span.className = "hot-tag";
+            span.textContent = name;
+            if (state.location && state.location.cityId === city.cityId) span.classList.add("active");
+            span.onclick = () => selectCity(city);
+            el.hot.appendChild(span);
+        });
+    }
+    // ---- 更新选中态 UI ----
+    function renderSelected() {
+        if (!state.location) {
+            el.selected.style.display = "none";
+            el.search.value = "";
+            el.search.style.display = "";
+            return;
+        }
+        const c = state.location;
+        el.selected.style.display = "flex";
+        el.selected.innerHTML = `
+            <span>✅ 已选择：<strong style="font-size:16px;">${c.cityName}</strong>
+              <span style="font-size:12px;color:#678;">（${c.provinceName}）</span>
+            </span>
+            <button class="clear-btn" onclick="window['clearCity_${suffix}']()">✕ 重新选择</button>
+        `;
+        // 隐藏搜索框（选中后不用搜索了），防止搜索值干扰
+        el.search.style.display = "none";
+        el.suggest.classList.remove("show");
+        renderHotTags();
+    }
+    // ---- 选中城市（设置 state.location = level=city 对象，强制 level=city）----
+    function selectCity(city) {
+        if (!city || city.level !== "city") return;
+        // 强制字段齐全 + lng/lat 永远 null（无论 city 传了啥都置 null）
+        state.location = {
+            level:        "city",
+            provinceId:   String(city.provinceId ?? ""),
+            provinceName: String(city.provinceName ?? ""),
+            cityId:       String(city.cityId ?? ""),
+            cityName:     String(city.cityName ?? ""),
+            districtId:   null,  // 组件只允许选中 city，所以 district 固定 null
+            districtName: null,
+            lng:          null,  // 不使用经纬度 / GPS
+            lat:          null,
+        };
+        renderSelected();
+    }
+    // ---- 清空选中 ----
+    function clearCity() {
+        state.location = null;
+        renderSelected();
+        setTimeout(() => { el.search.focus(); el.search.click(); }, 50);
+    }
+    // ---- 辅助：精确匹配城市（输入 == cityName，且 level=city；返回唯一对象或 null）----
+    // 用于：blur 时自动选中、validate 智能报错提示
+    function _findExactCity(keyword) {
+        const text = String(keyword || "").trim();
+        if (!text) return null;
+        // 去掉末尾的「市」字（如："长沙市" → "长沙"，这样也能匹配）
+        const norm = text.replace(/市$/, "");
+        const candidates = CITY_DB.filter(c =>
+            c.level === "city" &&
+            (c.cityName === text || c.cityName === norm)
+        );
+        return candidates.length === 1 ? candidates[0] : null;
+    }
+    // ---- 搜索联想：只展示 level=city，过滤省/区县（虽然 CITY_DB 本身全是 city，但防御性处理）----
+    function searchCity(keyword) {
+        const kw = String(keyword || "").trim().toLowerCase();
+        const box = el.suggest;
+        if (!kw) { box.classList.remove("show"); return; }
+        const results = CITY_DB
+            .filter(c => c.level === "city")          // 只允许 city，省/区县直接过滤（规则要求）
+            .filter(c => {
+                return c.cityName.toLowerCase().includes(kw)
+                    || c.provinceName.toLowerCase().includes(kw)
+                    || c.cityName.includes(keyword)
+                    || c.provinceName.includes(keyword);
+            })
+            .slice(0, 12);
+        box.innerHTML = "";
+        if (results.length === 0) {
+            const li = document.createElement("li");
+            li.className = "empty";
+            li.textContent = "❌ 未匹配到城市（只可选择地级市，区县/景区请填到下方详细位置）";
+            box.appendChild(li);
+        } else {
+            results.forEach(c => {
+                const li = document.createElement("li");
+                li.innerHTML = `<span>🏙️ ${c.cityName}</span><span class="sub">${c.provinceName}</span>`;
+                li.onclick = () => {
+                    selectCity(c);
+                    box.classList.remove("show");
+                };
+                box.appendChild(li);
+            });
+        }
+        box.classList.add("show");
+    }
+    // ---- 绑定事件 ----
+    function bindEvents() {
+        // ===== 中文输入法兼容：防止拼音阶段触发无效 search/validate =====
+        let isComposing = false;
+        el.search.addEventListener("compositionstart", () => { isComposing = true; });
+        el.search.addEventListener("compositionend", (e) => {
+            isComposing = false;
+            searchCity(el.search.value);  // 输入法候选选完（汉字上屏）后再真正搜一次
+        });
+
+        el.search.addEventListener("focus", () => searchCity(el.search.value));
+        el.search.addEventListener("input", () => {
+            if (isComposing) return;      // 拼音阶段（还没选候选）不搜，避免无效联想
+            searchCity(el.search.value);
+        });
+        el.search.addEventListener("blur", () => {
+            // 延迟 220ms，保证先执行 li.onclick（点击联想项）再做后续处理
+            setTimeout(() => {
+                el.suggest.classList.remove("show");
+                // ===== 核心修复：blur 时若 state 仍空，尝试精确匹配自动选中 =====
+                // 用户习惯：输入完「郴州/长沙」直接点下一个输入框，不手动点联想
+                if (!state.location || !state.location.cityId) {
+                    const exact = _findExactCity(el.search.value);
+                    if (exact) {
+                        selectCity(exact);  // 精确匹配唯一地级市 → 自动选中（解决本 bug 核心）
+                        el.suggest.classList.remove("show");
+                    }
+                }
+            }, 220);
+        });
+        el.detail.addEventListener("input", () => {
+            state.detailAddress = el.detail.value.trim();
+        });
+        // ESC 关联想
+        el.search.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") el.suggest.classList.remove("show");
+            if (e.key === "Enter") {
+                if (isComposing) return;  // 拼音阶段回车是选候选，不触发选中
+                const first = el.suggest.querySelector("li:not(.empty)");
+                if (first) first.click();
+                else {
+                    // 联想框已关（比如用户直接输入完就回车），试试精确匹配
+                    const exact = _findExactCity(el.search.value);
+                    if (exact) selectCity(exact);
+                }
+            }
+        });
+        // 全局暴露清除函数
+        window[`clearCity_${suffix}`] = clearCity;
+    }
+    // ---- 对外：提交前校验 ----
+    function validate(showShake = true) {
+        if (state.location && state.location.cityId) return { ok: true };
+        if (showShake) {
+            // 显示错误 + 震动 + 聚焦
+            el.search.style.display = "";
+            el.search.classList.add("validate-error");
+            el.search.focus();
+            el.card.scrollIntoView({ behavior: "smooth", block: "center" });
+            setTimeout(() => el.search.classList.remove("validate-error"), 1200);
+        }
+        // ===== 智能报错：根据搜索框内容给出更明确的提示 =====
+        const typed = el.search.value.trim();
+        let msg;
+        if (typed && _findExactCity(typed)) {
+            // 用户打了"郴州/长沙"等正确地级市，但没点联想/回车确认 → 明确告诉怎么操作
+            msg = suffix === "dest"
+                ? `【目的地】搜索框已有匹配的城市「${_findExactCity(typed).cityName}」，请点击下方联想项或按回车键确认选中（不能只打字不确认哦）。`
+                : `【出发地】搜索框已有匹配的城市「${_findExactCity(typed).cityName}」，请点击下方联想项或按回车键确认选中（不能只打字不确认哦）。`;
+        } else if (typed) {
+            // 用户打了"橘子洲/外滩/虹桥火车站"等非地级市 → 提示填详细位置
+            msg = suffix === "dest"
+                ? `【目的地】「${typed}」不是地级市（可能是景区/商圈/区县），请先在上方搜索框选择地级市，然后把「${typed}」填到下方【详细位置】输入框里。`
+                : `【出发地】「${typed}」不是地级市（可能是景区/商圈/区县），请先在上方搜索框选择地级市，然后把「${typed}」填到下方【详细位置】输入框里。`;
+        } else {
+            // 搜索框完全空 → 原来的通用提示
+            msg = suffix === "dest"
+                ? "请先选择【目的地城市】，再生成方案。详细位置（商圈/景区/车站）不能代替城市。"
+                : "请先选择【出发城市】，再生成方案。详细位置（商圈/景区/车站）不能代替城市。";
+        }
+        return { ok: false, msg };
+    }
+    // ---- 对外：获取 payload ----
+    function getPayload() {
+        state.detailAddress = el.detail.value.trim();
+        return {
+            location: state.location,   // null 或 10 字段 city 对象
+            detailAddress: state.detailAddress,  // 纯文本，空串允许
+        };
+    }
+
+    // ---- init ----
+    bindEvents();
+    renderHotTags();
+    renderSelected();
+
+    return {
+        state,
+        selectCity,
+        clearCity,
+        validate,
+        getPayload,
+    };
+}
+
+// ============================================================
+//  3) 初始化两套同构选择器
+//     depart = 出发城市；dest = 目的地城市
+// ============================================================
+const departSelector = createCitySelector("depart");
+const destSelector   = createCitySelector("dest");
+
+// 页面默认预置：目的地 = 上海，方便用户快速体验
+destSelector.selectCity(CITY_DB.find(c => c.cityId === "310100"));
+// 出发地 = 广州
+departSelector.selectCity(CITY_DB.find(c => c.cityId === "440100"));
+
+// ============================================================
+//  3.5) 出行偏好标签多选组件（无输入框，点击勾选，输出数组兼容后端）
+// ============================================================
+const PREF_TAG_POOL = [
+    "美食", "自然风光", "人文古迹", "网红打卡", "休闲度假",
+    "亲子游玩", "户外运动", "历史文博", "城市逛吃", "小众秘境"
+];
+// 选中集合（默认保持原页面「美食,自然风光」的选中体验，可全部取消）
+const PREF_SELECTED = new Set(["美食", "自然风光"]);
+
+function initPrefTags() {
+    const box = document.getElementById("prefTags");
+    if (!box) return;
+    box.innerHTML = "";
+    PREF_TAG_POOL.forEach(tag => {
+        const el = document.createElement("div");
+        el.className = "pref-tag" + (PREF_SELECTED.has(tag) ? " selected" : "");
+        el.textContent = tag;
+        el.onclick = () => {
+            if (PREF_SELECTED.has(tag)) {
+                PREF_SELECTED.delete(tag);
+                el.classList.remove("selected");
+            } else {
+                PREF_SELECTED.add(tag);
+                el.classList.add("selected");
+            }
+        };
+        box.appendChild(el);
+    });
+}
+initPrefTags();
+
+// ============================================================
+//  4) 原有 API 适配（保留全部旧功能）
+// ============================================================
+function _resolveApiUrl() {
+    const loc = window.location;
+    if (loc.protocol === "file:") return "http://localhost:8000/api/trip-plan";
+    return "/api/trip-plan";
+}
+function _resolveHealthUrl() {
+    const loc = window.location;
+    if (loc.protocol === "file:") return "http://localhost:8000/health";
+    return "/health";
+}
+const API_URL = _resolveApiUrl();
+const HEALTH_URL = _resolveHealthUrl();
+const resultDom = document.getElementById("result-area");
+const connStatusDom = document.getElementById("conn-status");
+
+// 页面加载时自动检测后端服务状态
+async function checkBackendHealth() {
+    try {
+        const resp = await fetchWithTimeout(HEALTH_URL, {}, 5000);
+        if (resp.ok) {
+            const data = await resp.json();
+            connStatusDom.style.background = "#e8f5e9";
+            connStatusDom.style.color = "#2e7d32";
+            connStatusDom.innerHTML = `✅ 后端服务已连接 (Gateway: ${HEALTH_URL})`;
+            return true;
+        } else {
+            connStatusDom.style.background = "#fff3e0";
+            connStatusDom.style.color = "#e65100";
+            connStatusDom.innerHTML = `⚠️ 后端返回异常 (状态码 ${resp.status}) &nbsp; <a href="javascript:checkBackendHealth()" style="color:#e65100;">重新检测</a>`;
+            return false;
+        }
+    } catch (err) {
+        connStatusDom.style.background = "#ffebee";
+        connStatusDom.style.color = "#c62828";
+        connStatusDom.innerHTML = `❌ 无法连接后端服务 &nbsp; <a href="javascript:checkBackendHealth()" style="color:#c62828;">重新检测</a>
+            <div style="font-size:12px;color:#888;margin-top:4px;">API 地址: ${HEALTH_URL} &nbsp;|&nbsp; 请确认已运行 run_all.py 启动全部服务</div>`;
+        return false;
+    }
+}
+checkBackendHealth();
+
+// 带超时的 fetch
+function fetchWithTimeout(url, options, timeoutMs) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
+// 显示错误
+function showError(title, detail, hints) {
+    const hintHtml = hints && hints.length
+        ? `<div class="error-hint">💡 排查建议：<br>${hints.map((h,i) => `${i+1}. ${h}`).join("<br>")}</div>`
+        : "";
+    resultDom.className = "";
+    resultDom.innerHTML = `
+        <div class="error-box">
+            <div class="error-icon">⚠️</div>
+            <div class="error-title">${title}</div>
+            <div class="error-detail">${detail || ""}</div>
+            ${hintHtml}
+            <div style="margin-top:12px;">
+                <button class="btn-retry" onclick="sendPlan()">🔄 重新生成</button>
+                <button class="btn-retry" style="background:#78909c;margin-left:8px;" onclick="checkBackendHealth()">🔍 检查服务状态</button>
+            </div>
+        </div>
+        <div class="debug-info">🔗 API 地址：${API_URL}</div>
+    `;
+}
+
+// ============================================================
+//  5.45) 数字输入框通用清洗：把非法输入（负数 / 超限 / 小数 / 非数字）夹取到 [min,max] 正整数区间
+//  - 仅保留整数部分；NaN/空 → 回退默认值 = Math.max(1, min)
+//  - 小于min → min；大于max → max
+// ============================================================
+function _sanitizeInt(raw, min, max) {
+    const n = parseInt(String(raw).trim(), 10);
+    let v;
+    if (Number.isNaN(n)) {
+        // 空/非数字：回退默认值（至少 1）
+        v = Math.max(1, min || 1);
+    } else {
+        v = n;
+    }
+    if (min != null && v < min) v = min;
+    if (max != null && v > max) v = max;
+    return v;
+}
+
+// ============================================================
+//  5.5) 预算档位提示：切换下拉时动态更新金额+酒店+餐饮+交通说明
+// ============================================================
+function _updateBudgetHint(val) {
+    const hint = document.getElementById("budget-hint");
+    if (!hint) return;
+    if (val === "经济型") {
+        hint.style.background = "#f0f7ea";
+        hint.style.color = "#2e7d32";
+        hint.innerHTML = `
+            💰 当前：<strong>经济型</strong>（总预算 = 目标城市物价 × 出行天数 × 出行人数 · 不含购物）<br>
+            酒店：本地经济连锁型酒店/民宿（按当地真实行情）｜餐饮：家常菜馆/夫妻店/本地小吃（人均按当地真实物价）｜交通：公交+地铁+拼车最省
+        `;
+    } else if (val === "高端型") {
+        hint.style.background = "#fff8e1";
+        hint.style.color = "#e65100";
+        hint.innerHTML = `
+            💎 当前：<strong>高端型</strong>（总预算 = 目标城市物价 × 出行天数 × 出行人数 · 不含购物）<br>
+            酒店：本地高端精品民宿/五星档次酒店（按当地实际配套，不虚构不存在的配置）｜餐饮：本地高品质口碑特色餐厅（人均按当地真实物价）｜交通：全程商务车包车（按当地车队配置）
+        `;
+    } else { // 舒适型
+        hint.style.background = "#eaf7fb";
+        hint.style.color = "#1a6b8a";
+        hint.innerHTML = `
+            ⚖️ 当前：<strong>舒适型</strong>（总预算 = 目标城市物价 × 出行天数 × 出行人数 · 不含购物）<br>
+            酒店：本地中档连锁/精品酒店（按当地真实行情）｜餐饮：本地口碑正餐/热门排队店（人均按当地真实物价）｜交通：网约车快车 + 近郊半天包车
+        `;
+    }
+}
+
+// ============================================================
+//  5) sendPlan：校验 + 提交新字段（departLocation / destLocation + detailAddress）
+// ============================================================
+async function sendPlan(_retryCount = 0) {
+    // ---- 校验 1：必须先选择城市（cityId 必传）；详细位置只作为补充，不能代替
+    const departCheck = departSelector.validate(true);
+    const destCheck = destSelector.validate(true);
+    if (!destCheck.ok) {
+        showError("请选择目的地城市", destCheck.msg, [
+            "不允许跳过城市只填详细位置就提交",
+            "详细位置仅用于酒店推荐周边的加权参考，不能为空城市",
+            "点击目的地【搜索框】输入，或点下方热门城市标签快速选中"
+        ]);
+        return;
+    }
+    if (!departCheck.ok) {
+        showError("请选择出发城市", departCheck.msg, [
+            "不允许跳过城市只填详细位置就提交",
+            "详细位置仅用于酒店推荐周边的加权参考，不能为空城市",
+            "点击出发地【搜索框】输入，或点下方热门城市标签快速选中"
+        ]);
+        return;
+    }
+    // ---- 读取 payload（detailAddress 也是选填，直接传空串即可）----
+    const departPayload = departSelector.getPayload();
+    const destPayload   = destSelector.getPayload();
+    const dates = document.getElementById("dates").value;
+    // 双重兜底：即使输入框实时清洗事件未触发，提交前也强制夹取到合法区间
+    const days = _sanitizeInt(document.getElementById("days").value, 1, 30);
+    const travelers = _sanitizeInt(document.getElementById("travelers").value, 1, 20);
+    const budget = document.getElementById("budget").value;
+    // 从出行偏好标签选中集合读取，输出数组（与原接口完全兼容）
+    const preferences = Array.from(PREF_SELECTED);
+
+    const departLocation   = departPayload.location;
+    const destLocation     = destPayload.location;
+    const departDetailAddr = departPayload.detailAddress;
+    const destDetailAddr   = destPayload.detailAddress;
+
+    // 显示目的地方案名
+    resultDom.className = "";
+    resultDom.innerHTML = `
+        <div style="text-align:center;padding:36px 20px;color:#2596be;">
+            <div style="font-size:32px;margin-bottom:12px;">🧭</div>
+            <div style="font-size:17px;">正在为您规划 <strong style="color:#1a6b8a;font-size:19px;">${destLocation.cityName}</strong> 的行程方案</div>
+            <div style="font-size:12px;color:#999;margin-top:8px;">
+              🔗 ${API_URL} &nbsp;·&nbsp; 出发：${departLocation.cityName} → 目的地：${destLocation.cityName}
+              ${departDetailAddr || destDetailAddr
+                  ? `<br>📍 周边加权：${departDetailAddr ? "出发("+departDetailAddr+") " : ""}${destDetailAddr ? "目的地("+destDetailAddr+")" : ""}`
+                  : ""}
+              <br>（通常 1~3 秒即可完成）
+            </div>
+        </div>
+    `;
+
+    try {
+        // 必传：departLocation.cityId / destLocation.cityId
+        // 选传：departDetailAddress / destDetailAddress（后端自己解析文本，做酒店推荐加权）
+        const payload = {
+            departLocation,
+            departDetailAddress: departDetailAddr,
+            destLocation,
+            destDetailAddress: destDetailAddr,
+            dates,
+            days,
+            travelers,
+            preferences,
+            budget,
+        };
+        const resp = await fetchWithTimeout(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        }, 30000); // 30 秒保守超时
+
+        let data;
+        try { data = await resp.json(); } catch (_) { data = null; }
+
+        if (!resp.ok) {
+            const errDetail = data?.detail || data?.message || `服务器返回错误（状态码 ${resp.status}）`;
+            showError("行程生成失败", errDetail, [
+                "检查是否已选择出发城市/目的地城市（两个都必须选）",
+                "查看后端控制台是否有报错信息",
+                "确认所有服务已启动（gateway + 3 个 agent）"
+            ]);
+            return;
+        }
+
+        // ========== 渲染结果（与原有保持一致，5 大板块）==========
+        console.log("[SmartVoyage] API 返回数据:", JSON.stringify(data, null, 2));
+        const planData = data.trip_plan;
+        if (!planData) {
+            showError("返回数据格式异常", "未获取到行程规划数据（trip_plan 为空）", [
+                "查看浏览器控制台 (F12) 的 [SmartVoyage] 日志",
+                "确认 gateway 版本是否为最新（重启 gateway 服务）"
+            ]);
+            return;
+        }
+
+        let html = `<div class="plan-header">📍 ${destLocation.cityName}出行规划方案（出发：${departLocation.cityName}）</div>`;
+        // ===== 资源匮乏城市备注：在方案最顶部警示（仅当resource_note非空时显示）=====
+        if (planData.resource_note && typeof planData.resource_note === "string" && planData.resource_note.trim()) {
+            html += `
+                <div class="resource-note" style="
+                    margin: 12px 0 6px 0;
+                    padding: 12px 14px;
+                    background: linear-gradient(135deg, #fff8e6, #ffecd2);
+                    border: 1px solid #f5c451;
+                    border-radius: 12px;
+                    color: #7a5a00;
+                    font-size: 13px;
+                    line-height: 1.7;
+                    box-shadow: 0 2px 8px rgba(245, 196, 81, 0.12);
+                ">${planData.resource_note.trim()}</div>`;
+        }
+        let hasAnyContent = false;
+        const sections = [
+            // ===== 顺序严格对齐后端 trip_plan：行前贴士→天气→景点→往返交通→市内交通→住宿→美食→每日行程→总预算 =====
+            // 💡 1. 行前贴士（暖心贴士：3 级分类，stripAll 去掉所有【xxx】前缀）
+            { key: "warm_tips",          icon: "💡", title: "行前贴士",             strip: "【暖心贴士", stripAll: true },
+            // 🌤️ 2. 天气参考
+            { key: "weather",            icon: "🌤️", title: "天气参考",             strip: "【天气查询】" },
+            // 🏞️ 3. 景点速览（评分从高到低+价格）
+            { key: "attractions",        icon: "🏞️", title: "景点速览",             strip: "【景点推荐】" },
+            // 🚄 4. 往返城际交通（长沙↔郴州）
+            { key: "transport",          icon: "🚄",  title: "往返城际交通",         strip: "【路线规划】", fixArrow: true },
+            // 🚗 5. 市内交通体系（新增！单人/双人/多人 + 黑车避雷 + 公交短板）
+            { key: "internal_transport", icon: "🚗", title: "市内交通体系",         strip: "【市内交通" },
+            // 🏨 6. 平价住宿推荐（3 片区 + 4 酒店 + 山区提示）
+            { key: "hotels",             icon: "🏨", title: "平价住宿推荐",         strip: "【酒店推荐" },
+            // 🍜 7. 吃喝玩乐推荐（全域通用：正餐+小吃+解暑饮+夜市+避雷，不再局限郴州）
+            { key: "food",               icon: "🍜", title: "吃喝玩乐推荐",         strip: "【美食玩乐" },
+            // 📅 8. 每日行程安排（地理顺路不绕路 + 每日就近美食绑定 + 删除地铁）
+            { key: "daily_routes",       icon: "📅", title: "每日行程安排",         strip: "【每日行程", fixArrow: true },
+            // 💰 9. 三日出行总预算（新增！经济型 vs 标准型 明细表）
+            { key: "budget",             icon: "💰", title: "三日出行总预算",       strip: "【三日总预算" },
+        ];
+        for (const sec of sections) {
+            const raw = planData[sec.key];
+            if (raw && typeof raw === "string" && raw.trim()) {
+                let text = raw.trim();
+                if (sec.stripAll) {
+                    text = text.split("\n").map(line => line.replace(/^\s*【[^】]*】\s*/, "")).join("\n").trim();
+                } else {
+                    if (text.startsWith(sec.strip)) text = text.replace(sec.strip, "");
+                    text = text.replace(/^【[^】]*】\s*/, "").trim();
+                }
+                if (sec.fixArrow) text = text.replaceAll(/——/g, "→");
+                html += `
+                    <div class="plan-section">
+                        <h4>${sec.icon} ${sec.title}</h4>
+                        <pre>${text}</pre>
+                    </div>`;
+                hasAnyContent = true;
+            }
+        }
+        if (!hasAnyContent) {
+            showError("未获取到行程内容", "API 返回成功但各板块数据均为空", [
+                "查看浏览器控制台 (F12) 的 [SmartVoyage] 日志确认原始返回数据",
+                "可能是后端 Agent 服务未启动，数据全部为空"
+            ]);
+            return;
+        }
+        html += `
+            <div class="result-actions">
+                <button class="btn-small" onclick="copyResult()">📋 复制方案</button>
+            </div>
+            <div class="debug-info">
+                ✅ 生成成功 &nbsp;|&nbsp; 会话ID：${data.session_id || "-"} &nbsp;|&nbsp;
+                版本：${data.build_revision || "-"} &nbsp;|&nbsp; 🔗 ${API_URL}
+            </div>
+        `;
+        resultDom.innerHTML = html;
+    } catch (err) {
+        console.error("[SmartVoyage] 请求异常：", err);
+        showError(
+            "网络异常或服务未启动",
+            err && err.name === "AbortError" ? "请求超时（> 30 秒未响应）" : (err && err.message ? err.message : "未知网络错误"),
+            [
+                "检查网络连接（可手动访问：" + API_URL.replace("/api/trip-plan", "") + "）",
+                "确认已运行 run_all.py 并等待 Gateway 就绪（控制台显示 Gateway ✅ OK）",
+                "尝试点击右上角【重新检测】按钮检查后端服务状态"
+            ]
+        );
+    }
+}
+
+// ============================================================
+//  6) 复制方案（保留原有功能，不引入 geolocation）
+// ============================================================
+async function copyResult() {
+    const text = resultDom.innerText.trim();
+    if (!text) return;
+    try {
+        await navigator.clipboard.writeText(text);
+        const btn = event && event.target;
+        if (btn) {
+            const ori = btn.textContent;
+            btn.textContent = "✅ 已复制";
+            btn.style.background = "#4caf50";
+            btn.style.color = "#fff";
+            setTimeout(() => { btn.textContent = ori; btn.style.background = ""; btn.style.color = ""; }, 1500);
+        }
+    } catch (e) {
+        // 兼容：clipboard 不可用时退化为临时 textarea
+        const ta = document.createElement("textarea");
+        ta.value = text; document.body.appendChild(ta);
+        ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+        alert("✅ 已复制到剪贴板");
+    }
+}
+</script>
+</body>
+</html>

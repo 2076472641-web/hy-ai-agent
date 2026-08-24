@@ -1,0 +1,254 @@
+[
+  {
+    "name": "杭州·无DB·偏好A",
+    "dest": "杭州",
+    "budget": "标准型",
+    "prefs": [
+      "美食",
+      "自然风光",
+      "亲子游玩"
+    ],
+    "sec_chars": {
+      "warm_tips": 851,
+      "weather": 152,
+      "attractions": 915,
+      "transport": 213,
+      "internal_transport": 1024,
+      "hotels": 1052,
+      "food": 2386,
+      "daily_routes": 3692,
+      "budget": 1922
+    },
+    "total_chars": 12207,
+    "resource_note": "📝 **温馨提示（请先看）**：目前公开渠道可查询到的「杭州」官方文旅景点结构化数据较少，本方案基于通用城市深度游特征为...",
+    "has_resource_note": true,
+    "hallucination_hits": [],
+    "pref_hits": {
+      "美食": {
+        "hits": 4,
+        "total_kws": 4,
+        "ok": true
+      },
+      "自然风光": {
+        "hits": 5,
+        "total_kws": 6,
+        "ok": true
+      },
+      "亲子游玩": {
+        "hits": 5,
+        "total_kws": 5,
+        "ok": true
+      }
+    }
+  },
+  {
+    "name": "长沙·无DB·偏好A",
+    "dest": "长沙",
+    "budget": "标准型",
+    "prefs": [
+      "美食",
+      "自然风光",
+      "亲子游玩"
+    ],
+    "sec_chars": {
+      "warm_tips": 912,
+      "weather": 153,
+      "attractions": 1039,
+      "transport": 215,
+      "internal_transport": 1024,
+      "hotels": 1071,
+      "food": 2386,
+      "daily_routes": 3904,
+      "budget": 1922
+    },
+    "total_chars": 12626,
+    "resource_note": "📝 **温馨提示（请先看）**：目前公开渠道可查询到的「长沙」官方文旅景点结构化数据较少，本方案基于通用城市深度游特征为...",
+    "has_resource_note": true,
+    "hallucination_hits": [],
+    "pref_hits": {
+      "美食": {
+        "hits": 4,
+        "total_kws": 4,
+        "ok": true
+      },
+      "自然风光": {
+        "hits": 5,
+        "total_kws": 6,
+        "ok": true
+      },
+      "亲子游玩": {
+        "hits": 5,
+        "total_kws": 5,
+        "ok": true
+      }
+    }
+  },
+  {
+    "name": "银川·无DB·偏好A",
+    "dest": "银川",
+    "budget": "标准型",
+    "prefs": [
+      "美食",
+      "自然风光",
+      "亲子游玩"
+    ],
+    "sec_chars": {
+      "warm_tips": 869,
+      "weather": 146,
+      "attractions": 1039,
+      "transport": 215,
+      "internal_transport": 1024,
+      "hotels": 1071,
+      "food": 2386,
+      "daily_routes": 3904,
+      "budget": 1922
+    },
+    "total_chars": 12576,
+    "resource_note": "📝 **温馨提示（请先看）**：目前公开渠道可查询到的「银川」官方文旅景点结构化数据较少，本方案基于通用城市深度游特征为...",
+    "has_resource_note": true,
+    "hallucination_hits": [],
+    "pref_hits": {
+      "美食": {
+        "hits": 4,
+        "total_kws": 4,
+        "ok": true
+      },
+      "自然风光": {
+        "hits": 5,
+        "total_kws": 6,
+        "ok": true
+      },
+      "亲子游玩": {
+        "hits": 5,
+        "total_kws": 5,
+        "ok": true
+      }
+    }
+  },
+  {
+    "name": "成都·有DB·偏好A",
+    "dest": "成都",
+    "budget": "标准型",
+    "prefs": [
+      "美食",
+      "自然风光",
+      "亲子游玩"
+    ],
+    "sec_chars": {
+      "warm_tips": 912,
+      "weather": 154,
+      "attractions": 778,
+      "transport": 215,
+      "internal_transport": 1024,
+      "hotels": 1059,
+      "food": 2386,
+      "daily_routes": 3602,
+      "budget": 1922
+    },
+    "total_chars": 12052,
+    "resource_note": "",
+    "has_resource_note": false,
+    "hallucination_hits": [],
+    "pref_hits": {
+      "美食": {
+        "hits": 4,
+        "total_kws": 4,
+        "ok": true
+      },
+      "自然风光": {
+        "hits": 5,
+        "total_kws": 6,
+        "ok": true
+      },
+      "亲子游玩": {
+        "hits": 5,
+        "total_kws": 5,
+        "ok": true
+      }
+    }
+  },
+  {
+    "name": "成都·经济型·偏好A",
+    "dest": "成都",
+    "budget": "经济型",
+    "prefs": [
+      "美食",
+      "自然风光",
+      "亲子游玩"
+    ],
+    "sec_chars": {
+      "warm_tips": 912,
+      "weather": 154,
+      "attractions": 778,
+      "transport": 215,
+      "internal_transport": 1059,
+      "hotels": 1052,
+      "food": 2159,
+      "daily_routes": 4038,
+      "budget": 1737
+    },
+    "total_chars": 12104,
+    "resource_note": "",
+    "has_resource_note": false,
+    "hallucination_hits": [],
+    "pref_hits": {
+      "美食": {
+        "hits": 4,
+        "total_kws": 4,
+        "ok": true
+      },
+      "自然风光": {
+        "hits": 5,
+        "total_kws": 6,
+        "ok": true
+      },
+      "亲子游玩": {
+        "hits": 5,
+        "total_kws": 5,
+        "ok": true
+      }
+    }
+  },
+  {
+    "name": "成都·高端型·偏好A",
+    "dest": "成都",
+    "budget": "高端型",
+    "prefs": [
+      "美食",
+      "自然风光",
+      "亲子游玩"
+    ],
+    "sec_chars": {
+      "warm_tips": 912,
+      "weather": 154,
+      "attractions": 778,
+      "transport": 215,
+      "internal_transport": 1020,
+      "hotels": 1089,
+      "food": 1884,
+      "daily_routes": 4118,
+      "budget": 1872
+    },
+    "total_chars": 12042,
+    "resource_note": "",
+    "has_resource_note": false,
+    "hallucination_hits": [],
+    "pref_hits": {
+      "美食": {
+        "hits": 4,
+        "total_kws": 4,
+        "ok": true
+      },
+      "自然风光": {
+        "hits": 5,
+        "total_kws": 6,
+        "ok": true
+      },
+      "亲子游玩": {
+        "hits": 5,
+        "total_kws": 5,
+        "ok": true
+      }
+    }
+  }
+]

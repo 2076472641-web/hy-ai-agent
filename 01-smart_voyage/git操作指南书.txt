@@ -1,0 +1,15 @@
+# ✔当前代码完好，保存节点
+git add .
+git commit -m "这里写节点备注"
+
+# ✔交给Claude干活前，先打备份
+git add .
+git commit -m "备份：准备开发XX功能"
+claude
+
+# ✔AI改错，回退到上一个节点
+# Ctrl+D退出claude
+git restore .
+
+# ✔查看所有历史保存节点
+git log --oneline

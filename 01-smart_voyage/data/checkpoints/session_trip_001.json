@@ -1,0 +1,261 @@
+{
+  "session_id": "trip_001",
+  "created_at": 1785465609.15272,
+  "updated_at": 1785572122.1418736,
+  "messages": [
+    {
+      "id": "e893ba12-7acd-4f23-a473-0a2648783dd5",
+      "role": "user",
+      "content": "帮我查一下成都明天的天气怎么样",
+      "metadata": {},
+      "created_at": 1785465609.156524
+    },
+    {
+      "id": "835f931b-a44d-4c4d-b8b9-2889784eceef",
+      "role": "assistant",
+      "content": "",
+      "metadata": {},
+      "created_at": 1785465612.175468
+    },
+    {
+      "id": "81c5ec78-62e8-4bb3-bcb1-fcfa5398eb48",
+      "role": "user",
+      "content": "推荐北京3天游玩的景点",
+      "metadata": {},
+      "created_at": 1785465612.2014515
+    },
+    {
+      "id": "fab4dbaa-160d-4225-aa18-b2d9ea0fc654",
+      "role": "assistant",
+      "content": "",
+      "metadata": {},
+      "created_at": 1785465614.559347
+    },
+    {
+      "id": "6ffac62f-914c-43f6-89d7-090fabcd00ce",
+      "role": "user",
+      "content": "从上海到杭州怎么去最方便",
+      "metadata": {},
+      "created_at": 1785465614.5707645
+    },
+    {
+      "id": "ffdc7110-78ad-4dd4-9c21-18e753b7ce01",
+      "role": "assistant",
+      "content": "",
+      "metadata": {},
+      "created_at": 1785465616.8575382
+    },
+    {
+      "id": "a66b9c64-5af1-441a-b08c-f3872182caf5",
+      "role": "user",
+      "content": "帮我查一下成都明天的天气怎么样",
+      "metadata": {},
+      "created_at": 1785465758.251303
+    },
+    {
+      "id": "1985ab38-8451-4e79-a8ee-a0fffd48095d",
+      "role": "assistant",
+      "content": "",
+      "metadata": {},
+      "created_at": 1785465760.7716837
+    },
+    {
+      "id": "55fe2aa6-2939-45a4-a2bb-8c0d23adb467",
+      "role": "user",
+      "content": "推荐北京3天游玩的景点",
+      "metadata": {},
+      "created_at": 1785465760.780804
+    },
+    {
+      "id": "59a21996-f7c9-4f6a-89e7-62a79b2c21ef",
+      "role": "assistant",
+      "content": "",
+      "metadata": {},
+      "created_at": 1785465763.0896783
+    },
+    {
+      "id": "a7d949ae-3fce-46af-a1ec-e4327c7eee73",
+      "role": "user",
+      "content": "从上海到杭州怎么去最方便",
+      "metadata": {},
+      "created_at": 1785465763.0996678
+    },
+    {
+      "id": "707879e6-6d24-4b8f-bbb3-3253c1c7507b",
+      "role": "assistant",
+      "content": "",
+      "metadata": {},
+      "created_at": 1785465765.406164
+    },
+    {
+      "id": "3421fc7d-a4a1-4dd1-97aa-6e654adc2754",
+      "role": "user",
+      "content": "帮我查一下成都明天的天气怎么样",
+      "metadata": {},
+      "created_at": 1785465908.8684745
+    },
+    {
+      "id": "2d36ea9d-38c2-4364-b379-2e44f39c147e",
+      "role": "assistant",
+      "content": "【天气查询】成都未来3天：成都未来3天以晴为主，最高温21℃，最低温14",
+      "metadata": {},
+      "created_at": 1785465911.373927
+    },
+    {
+      "id": "e42daa14-5b2f-4f2d-affe-a9f73333d31c",
+      "role": "user",
+      "content": "推荐北京3天游玩的景点",
+      "metadata": {},
+      "created_at": 1785465911.3935373
+    },
+    {
+      "id": "dc78eb14-7dcc-4d2a-a6fe-2d96744b2da8",
+      "role": "assistant",
+      "content": "【景点推荐】北京热门景点：\n  1. 故宫博物院(4.9分) - 世界文化遗产，明清皇宫\n  2. 长城(八达岭)(4.8分) - 万里长城最著名的段落之一\n  3. 颐和园(4.7分) - 皇家园林博物馆\n  4. 天坛(4.7分) - 明清两代祭天的场所\n  5. 天安门广场(4.6分) - 世界最大的城市广场",
+      "metadata": {},
+      "created_at": 1785465913.8100793
+    },
+    {
+      "id": "21721cfe-d350-4ec2-98b8-b1c4df685aa3",
+      "role": "user",
+      "content": "从上海到杭州怎么去最方便",
+      "metadata": {},
+      "created_at": 1785465913.8205037
+    },
+    {
+      "id": "563aea7d-b76d-4a72-96a7-d3c6d854fb79",
+      "role": "assistant",
+      "content": "【路线规划】上海 → 杭州：\n  高铁：约1小时，约54元，准点率高，舒适便捷\n  汽车：约2小时，约27元，票价便宜，灵活方便",
+      "metadata": {},
+      "created_at": 1785465916.116092
+    },
+    {
+      "id": "299aeacb-bb40-4133-be2e-9a51d12bd97f",
+      "role": "user",
+      "content": "帮我查一下成都明天的天气怎么样",
+      "metadata": {},
+      "created_at": 1785466016.4422839
+    },
+    {
+      "id": "9471be7a-e903-46d9-8e05-27cea2c9319b",
+      "role": "assistant",
+      "content": "【天气查询】成都未来3天：成都未来3天以晴为主，最高温21℃，最低温14",
+      "metadata": {},
+      "created_at": 1785466018.9417934
+    },
+    {
+      "id": "93cd3fe1-f6b0-4719-b1f3-6f2929581ca6",
+      "role": "user",
+      "content": "推荐北京3天游玩的景点",
+      "metadata": {},
+      "created_at": 1785466018.9463203
+    },
+    {
+      "id": "07241616-97f9-4461-8e74-18e4b522967b",
+      "role": "assistant",
+      "content": "【景点推荐】北京热门景点：\n  1. 故宫博物院(4.9分) - 世界文化遗产，明清皇宫\n  2. 长城(八达岭)(4.8分) - 万里长城最著名的段落之一\n  3. 颐和园(4.7分) - 皇家园林博物馆\n  4. 天坛(4.7分) - 明清两代祭天的场所\n  5. 天安门广场(4.6分) - 世界最大的城市广场",
+      "metadata": {},
+      "created_at": 1785466021.242568
+    },
+    {
+      "id": "4b906ec4-7ebe-4b81-8a12-621df8781897",
+      "role": "user",
+      "content": "从上海到杭州怎么去最方便",
+      "metadata": {},
+      "created_at": 1785466021.2525156
+    },
+    {
+      "id": "6f626eaf-0cb0-4b0c-b30f-3321d120c020",
+      "role": "assistant",
+      "content": "【路线规划】上海 → 杭州：\n  高铁：约1小时，约54元，准点率高，舒适便捷\n  汽车：约2小时，约27元，票价便宜，灵活方便",
+      "metadata": {},
+      "created_at": 1785466023.545727
+    },
+    {
+      "id": "1bcc913d-6672-47a3-aca9-c8fdb87f5c62",
+      "role": "user",
+      "content": "帮我查一下成都明天的天气怎么样",
+      "metadata": {},
+      "created_at": 1785466167.6418586
+    },
+    {
+      "id": "0abc4690-7af5-4080-a025-2318e213c96d",
+      "role": "assistant",
+      "content": "【天气查询】成都未来3天：成都未来3天以晴为主，最高温21℃，最低温14",
+      "metadata": {},
+      "created_at": 1785466170.1392686
+    },
+    {
+      "id": "d346b491-5772-40dc-865d-87b81e6f5e55",
+      "role": "user",
+      "content": "推荐北京3天游玩的景点",
+      "metadata": {},
+      "created_at": 1785466170.1651664
+    },
+    {
+      "id": "7e7d48b7-eb75-4ada-b85e-1b40a804faa2",
+      "role": "assistant",
+      "content": "【景点推荐】北京热门景点：\n  1. 故宫博物院(4.9分) - 世界文化遗产，明清皇宫\n  2. 长城(八达岭)(4.8分) - 万里长城最著名的段落之一\n  3. 颐和园(4.7分) - 皇家园林博物馆\n  4. 天坛(4.7分) - 明清两代祭天的场所\n  5. 天安门广场(4.6分) - 世界最大的城市广场",
+      "metadata": {},
+      "created_at": 1785466172.5330973
+    },
+    {
+      "id": "03d52c8e-4e13-42a3-a716-2c86a009ce7f",
+      "role": "user",
+      "content": "从上海到杭州怎么去最方便",
+      "metadata": {},
+      "created_at": 1785466172.54418
+    },
+    {
+      "id": "7e7983ad-d6d3-47fd-aaa0-f59f18320366",
+      "role": "assistant",
+      "content": "【路线规划】上海 → 杭州：\n  高铁：约1小时，约54元，准点率高，舒适便捷\n  汽车：约2小时，约27元，票价便宜，灵活方便",
+      "metadata": {},
+      "created_at": 1785466174.835758
+    },
+    {
+      "id": "be125a91-a9c4-4ade-a88b-ecc4ecc8a952",
+      "role": "user",
+      "content": "帮我查一下成都明天的天气怎么样",
+      "metadata": {},
+      "created_at": 1785572115.4641914
+    },
+    {
+      "id": "2c565223-9621-48e9-853a-6ce76b0d4155",
+      "role": "assistant",
+      "content": "【天气查询】帮我查一未来3天：成都未来3天以晴为主，最高温21℃，最低温14",
+      "metadata": {},
+      "created_at": 1785572117.8985198
+    },
+    {
+      "id": "f4001d73-1bfd-4424-8481-00dff4c7f204",
+      "role": "user",
+      "content": "推荐北京3天游玩的景点",
+      "metadata": {},
+      "created_at": 1785572117.929774
+    },
+    {
+      "id": "ccd8d75c-c11f-4d09-a271-61e26e58da7a",
+      "role": "assistant",
+      "content": "【景点推荐】推荐北京景点：\n  1. 故宫博物院(4.9分) - 世界文化遗产，明清皇宫\n  2. 长城(八达岭)(4.8分) - 万里长城最著名的段落之一\n  3. 颐和园(4.7分) - 皇家园林博物馆\n  4. 天坛(4.7分) - 明清两代祭天的场所\n  5. 天安门广场(4.6分) - 世界最大的城市广场",
+      "metadata": {},
+      "created_at": 1785572120.029296
+    },
+    {
+      "id": "ed43e40b-5d25-4b52-9161-2bd51760e69e",
+      "role": "user",
+      "content": "从上海到杭州怎么去最方便",
+      "metadata": {},
+      "created_at": 1785572120.0363376
+    },
+    {
+      "id": "ba25b1a4-bf69-49cc-8460-8ebd4130b645",
+      "role": "assistant",
+      "content": "【路线规划】上海 → 杭州怎么：\n  🚄 高铁：约1小时，约150元 | 优点：准点率高，舒适便捷 | 注意：可能出现票源紧张\n      杭州怎么火车站  →  杭州怎么火车站\n  🚄 汽车：约6小时，约75元 | 优点：票价便宜，灵活方便 | 注意：耗时较长\n      杭州怎么长途汽车站  →  杭州怎么汽车站\n\n💎 推荐：推荐选择高铁，约1小时，约150元。准点率高，舒适便捷。\n📌 小贴士：建议提前预订票务，节假日高峰需提前更多时间安排。",
+      "metadata": {},
+      "created_at": 1785572122.1418736
+    }
+  ],
+  "metadata": {},
+  "summary": ""
+}

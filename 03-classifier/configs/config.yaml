@@ -1,0 +1,144 @@
+# 项目基础配置
+project:
+  name: "优店汇·商品类目智能研判分类系统"
+  version: "1.0.0"
+  author: "NLP工程团队"
+  description: "基于NLP与机器学习的小程序商品自动化分类系统"
+
+# 路径配置
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  models: "data/models"
+  logs: "logs"
+
+# 类目配置 - 十二大类商品
+categories:
+  - id: 0
+    name: "服装鞋帽"
+    keywords: ["T恤", "衬衫", "外套", "裤子", "裙子", "鞋子", "帽子", "袜子", "羽绒服", "卫衣", "牛仔裤", "运动鞋", "高跟鞋", "西装", "毛衣"]
+  - id: 1
+    name: "数码家电"
+    keywords: ["手机", "电脑", "耳机", "相机", "电视", "冰箱", "洗衣机", "空调", "平板", "充电器", "数据线", "充电宝", "音箱", "路由器", "智能手表"]
+  - id: 2
+    name: "美妆护肤"
+    keywords: ["面膜", "口红", "粉底", "面霜", "精华", "香水", "眉笔", "眼影", "睫毛膏", "卸妆", "洁面", "爽肤水", "乳液", "防晒霜", "唇膏"]
+  - id: 3
+    name: "食品生鲜"
+    keywords: ["零食", "饼干", "巧克力", "坚果", "水果", "蔬菜", "肉类", "海鲜", "牛奶", "饮料", "咖啡", "茶叶", "方便面", "火腿肠", "蛋糕"]
+  - id: 4
+    name: "家居家装"
+    keywords: ["沙发", "床", "桌子", "椅子", "衣柜", "灯具", "窗帘", "地毯", "枕头", "被子", "收纳", "装饰画", "花瓶", "厨房用具", "卫浴"]
+  - id: 5
+    name: "母婴用品"
+    keywords: ["奶粉", "纸尿裤", "奶瓶", "婴儿车", "玩具", "童装", "孕装", "湿巾", "辅食", "安全座椅", "童床", "书包", "文具", "绘本", "积木"]
+  - id: 6
+    name: "运动户外"
+    keywords: ["篮球", "足球", "羽毛球", "跑步机", "瑜伽垫", "哑铃", "自行车", "帐篷", "睡袋", "登山鞋", "运动服", "健身器材", "滑板", "钓鱼", "游泳圈"]
+  - id: 7
+    name: "图书文娱"
+    keywords: ["小说", "教材", "辅导书", "杂志", "文具", "乐器", "拼图", "桌游", "电子琴", "吉他", "画笔", "宣纸", "印章", "书签", "字帖"]
+  - id: 8
+    name: "珠宝饰品"
+    keywords: ["项链", "戒指", "耳环", "手链", "手镯", "手表", "胸针", "发饰", "眼镜", "墨镜", "黄金", "钻石", "银饰", "珍珠", "琥珀"]
+  - id: 9
+    name: "汽车用品"
+    keywords: ["汽车坐垫", "脚垫", "香水", "行车记录仪", "导航", "轮胎", "机油", "雨刷", "车蜡", "洗车工具", "钥匙包", "手机支架", "后备箱垫", "靠枕", "挂件"]
+  - id: 10
+    name: "宠物用品"
+    keywords: ["狗粮", "猫粮", "猫砂", "狗窝", "猫爬架", "玩具", "牵引绳", "衣服", "食盆", "航空箱", "浴液", "指甲剪", "梳子", "项圈", "零食"]
+  - id: 11
+    name: "医药保健"
+    keywords: ["维生素", "钙片", "蛋白粉", "感冒药", "创可贴", "体温计", "血压计", "血糖仪", "眼罩", "口罩", "消毒水", "止痛药", "肠胃药", "过敏药", "安神补脑"]
+
+# 数据处理配置
+data:
+  min_title_length: 2
+  max_title_length: 100
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  random_seed: 42
+
+# 特征工程配置
+features:
+  # 分词配置
+  tokenizer:
+    use_stopwords: true
+    min_token_length: 1
+    enable_pos_filter: false
+  # TF-IDF配置
+  tfidf:
+    max_features: 5000
+    ngram_range: [1, 2]
+    min_df: 2
+    max_df: 0.95
+  # 文本嵌入配置
+  embedding:
+    use_word2vec: false
+    bert_model: "bert-base-chinese"
+    max_seq_length: 128
+    pooling_strategy: "cls"
+
+# 模型训练配置
+models:
+  # 随机森林
+  random_forest:
+    n_estimators: 200
+    max_depth: 30
+    min_samples_split: 5
+    min_samples_leaf: 2
+    class_weight: "balanced"
+    random_state: 42
+  
+  # FastText
+  fasttext:
+    lr: 0.1
+    epoch: 50
+    wordNgrams: 2
+    dim: 128
+    loss: "softmax"
+    bucket: 200000
+    minCount: 2
+  
+  # BERT微调
+  bert:
+    base_model: "bert-base-chinese"
+    num_labels: 12
+    max_length: 128
+    batch_size: 32
+    learning_rate: 2.0e-5
+    num_train_epochs: 5
+    warmup_ratio: 0.1
+    weight_decay: 0.01
+    gradient_accumulation_steps: 2
+    fp16: false
+
+# 模型压缩配置
+compression:
+  quantization:
+    enabled: true
+    dtype: "int8"
+  distillation:
+    enabled: true
+    teacher_model: "bert-base-chinese"
+    student_model: "distilbert-base-chinese"
+    temperature: 4.0
+    alpha: 0.5
+    epochs: 3
+
+# 推理服务配置
+service:
+  host: "0.0.0.0"
+  port: 8000
+  default_model: "bert_distilled"
+  enable_batch: true
+  max_batch_size: 64
+  response_timeout: 30
+
+# 评估配置
+evaluation:
+  primary_metric: "f1_macro"
+  metrics: ["accuracy", "precision_macro", "recall_macro", "f1_micro", "f1_macro", "classification_report"]
+  confusion_matrix: true
+  roc_auc: false

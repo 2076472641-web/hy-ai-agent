@@ -1,0 +1,158 @@
+# ============================================================
+# 途景汇文旅多智能体一体化系统 - Docker Compose 部署
+# ============================================================
+
+version: "3.8"
+
+services:
+  # ---- MySQL 数据库 ----
+  mysql:
+    image: mysql:8.0
+    container_name: sjh_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-songjing_hui}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mcp_server/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./mcp_server/db/init_data.py:/docker-entrypoint-initdb.d/init_data.py:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sjh_network
+
+  # ---- MCP 统一工具服务 ----
+  mcp_server:
+    build:
+      context: .
+      dockerfile: mcp_server/Dockerfile
+    container_name: sjh_mcp_server
+    restart: unless-stopped
+    environment:
+      - MCP_SERVER_HOST=0.0.0.0
+      - MCP_SERVER_PORT=8001
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-songjing_hui}
+    ports:
+      - "8001:8001"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./data/checkpoints:/app/data/checkpoints
+    networks:
+      - sjh_network
+
+  # ---- 天气查询智能体 ----
+  weather_agent:
+    build:
+      context: .
+      dockerfile: agents/weather_agent/Dockerfile
+    container_name: sjh_weather_agent
+    restart: unless-stopped
+    environment:
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-qwen-plus}
+      - MCP_SERVER_URL=http://mcp_server:8001
+      - WEATHER_AGENT_PORT=8101
+      - AGENT_BASE_URL=http://weather_agent:8101
+    ports:
+      - "8101:8101"
+    depends_on:
+      mcp_server:
+        condition: service_started
+    volumes:
+      - ./data/checkpoints:/app/data/checkpoints
+    networks:
+      - sjh_network
+
+  # ---- 景点推荐智能体 ----
+  attraction_agent:
+    build:
+      context: .
+      dockerfile: agents/attraction_agent/Dockerfile
+    container_name: sjh_attraction_agent
+    restart: unless-stopped
+    environment:
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-qwen-plus}
+      - MCP_SERVER_URL=http://mcp_server:8001
+      - ATTRACTION_AGENT_PORT=8102
+      - AGENT_BASE_URL=http://attraction_agent:8102
+    ports:
+      - "8102:8102"
+    depends_on:
+      mcp_server:
+        condition: service_started
+    volumes:
+      - ./data/checkpoints:/app/data/checkpoints
+    networks:
+      - sjh_network
+
+  # ---- 出行路线规划智能体 ----
+  route_agent:
+    build:
+      context: .
+      dockerfile: agents/route_agent/Dockerfile
+    container_name: sjh_route_agent
+    restart: unless-stopped
+    environment:
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-qwen-plus}
+      - MCP_SERVER_URL=http://mcp_server:8001
+      - ROUTE_AGENT_PORT=8103
+      - AGENT_BASE_URL=http://route_agent:8103
+    ports:
+      - "8103:8103"
+    depends_on:
+      mcp_server:
+        condition: service_started
+    volumes:
+      - ./data/checkpoints:/app/data/checkpoints
+    networks:
+      - sjh_network
+
+  # ---- API 网关 ----
+  gateway:
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: sjh_gateway
+    restart: unless-stopped
+    environment:
+      - GATEWAY_PORT=8000
+      - WEATHER_AGENT_URL=http://weather_agent:8101
+      - ATTRACTION_AGENT_URL=http://attraction_agent:8102
+      - ROUTE_AGENT_URL=http://route_agent:8103
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
+      - LLM_MODEL=${LLM_MODEL:-qwen-plus}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - weather_agent
+      - attraction_agent
+      - route_agent
+    volumes:
+      - ./data/checkpoints:/app/data/checkpoints
+    networks:
+      - sjh_network
+
+# ---- 数据卷 ----
+volumes:
+  mysql_data:
+    driver: local
+
+# ---- 网络 ----
+networks:
+  sjh_network:
+    driver: bridge
+    name: sjh_network

@@ -1,0 +1,426 @@
+{
+  "metadata": {
+    "run_at": "2026-08-02 10:29:36",
+    "mode": "mock",
+    "api_base": null,
+    "mock_noise": 0.0
+  },
+  "summary": {
+    "summary": {
+      "total_cases": 5,
+      "passed": 5,
+      "failed": 0,
+      "pass_rate": 1.0,
+      "pass_rate_percent": "100.0%",
+      "avg_accuracy_score": 0.78,
+      "execution_seconds": 0.02
+    },
+    "metrics_average": {
+      "avg_keyword_recall": 0.43,
+      "avg_semantic_similarity": 1.0,
+      "avg_faithfulness": 0.9,
+      "avg_entity_accuracy": 0.8333
+    },
+    "hallucination_distribution": {
+      "high": 0,
+      "medium": 2,
+      "low": 1,
+      "none": 2,
+      "high_ratio": 0.0
+    },
+    "grade_distribution": {
+      "B": 2,
+      "A": 2,
+      "C": 1
+    },
+    "latency_statistics": {
+      "count": 5,
+      "avg_ms": 0.03,
+      "min_ms": 0.01,
+      "max_ms": 0.13,
+      "p50_ms": 0.01,
+      "p95_ms": 0.13
+    },
+    "category_breakdown": {
+      "cross_border_logistics": {
+        "total": 5,
+        "passed": 5,
+        "failed": 0,
+        "pass_rate": 1.0
+      }
+    },
+    "difficulty_breakdown": {
+      "easy": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "pass_rate": 1.0
+      },
+      "medium": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "pass_rate": 1.0
+      }
+    },
+    "timestamp": {
+      "start": 1785637776.727365,
+      "end": 1785637776.743296
+    }
+  },
+  "cases": [
+    {
+      "id": "LOG-001",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "easy",
+      "knowledge_point": "国际物流方式选择与时效报价",
+      "question": "从中国深圳发一件500g的包裹到美国纽约，用什么物流方式最便宜？大概需要几天？",
+      "llm_output": "500g包裹从深圳发往纽约，推荐使用ePacket（邮政小包）最经济，运费约35-50元人民币，时效约7-15个工作日；如需更快可选择DHL/UPS快递，约3-5天，运费约120-180元。",
+      "retrieved_contexts_top3": [
+        "500g包裹从深圳发往纽约，推荐使用ePacket（邮政小包）最经济，运费约35-50元人民币，时效约7-15个工作日"
+      ],
+      "reference_answer": "500g包裹从深圳发往纽约，推荐使用ePacket（邮政小包）最经济，运费约35-50元人民币，时效约7-15个工作日；如需更快可选择DHL/UPS快递，约3-5天，运费约120-180元。",
+      "latency_ms": 0.13,
+      "error": null,
+      "accuracy_score": 0.7713,
+      "passed": true,
+      "grade": "B",
+      "keyword_metrics": {
+        "hit_count": 2,
+        "total_expected": 4,
+        "recall": 0.5,
+        "hit_keywords": [
+          "邮政小包",
+          "ePacket"
+        ],
+        "miss_keywords": [
+          "7-15天",
+          "15-25天"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 1.0,
+        "overlap_coefficient": 1.0,
+        "cosine_like": 1.0,
+        "composite_score": 1.0
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.9,
+        "supported_ratio": 1.0,
+        "supported_count": 2,
+        "total_claims": 2,
+        "unsupported_claims": [],
+        "penalty_from_patterns": 0.0
+      },
+      "entity_alignment": {
+        "aligned_count": 2,
+        "total_slots": 3,
+        "accuracy": 0.6667,
+        "per_slot_results": {
+          "origin": {
+            "expected": "深圳",
+            "hit": true
+          },
+          "destination": {
+            "expected": "美国纽约",
+            "hit": false
+          },
+          "weight": {
+            "expected": "500g",
+            "hit": true
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "low",
+        "risk_score": 0.12,
+        "reasons": [
+          "实体[destination=美国纽约]在回答中缺失"
+        ],
+        "keyword_coverage_recall": 0.5,
+        "question_answer_overlap": 0.2581
+      }
+    },
+    {
+      "id": "LOG-002",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "easy",
+      "knowledge_point": "日本线物流渠道对比",
+      "question": "发往日本东京的2kg包裹，有哪些物流渠道可选？",
+      "llm_output": "2kg包裹发日本东京可选渠道：①日本专线空运：约3-5天，运费45-60元；②EMS国际特快：约4-7天，运费80-110元；③DHL/UPS商业快递：约2-4天，运费150-200元；④海运小包：约15-25天，运费25-35元。",
+      "retrieved_contexts_top3": [
+        "2kg包裹发日本东京可选渠道：①日本专线空运：约3-5天，运费45-60元",
+        "②EMS国际特快：约4-7天，运费80-110元"
+      ],
+      "reference_answer": "2kg包裹发日本东京可选渠道：①日本专线空运：约3-5天，运费45-60元；②EMS国际特快：约4-7天，运费80-110元；③DHL/UPS商业快递：约2-4天，运费150-200元；④海运小包：约15-25天，运费25-35元。",
+      "latency_ms": 0.01,
+      "error": null,
+      "accuracy_score": 0.875,
+      "passed": true,
+      "grade": "A",
+      "keyword_metrics": {
+        "hit_count": 3,
+        "total_expected": 5,
+        "recall": 0.6,
+        "hit_keywords": [
+          "EMS",
+          "DHL",
+          "日本专线"
+        ],
+        "miss_keywords": [
+          "3-7天",
+          "5-10天"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 1.0,
+        "overlap_coefficient": 1.0,
+        "cosine_like": 1.0,
+        "composite_score": 1.0
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.9,
+        "supported_ratio": 1.0,
+        "supported_count": 4,
+        "total_claims": 4,
+        "unsupported_claims": [],
+        "penalty_from_patterns": 0.0
+      },
+      "entity_alignment": {
+        "aligned_count": 2,
+        "total_slots": 2,
+        "accuracy": 1.0,
+        "per_slot_results": {
+          "destination": {
+            "expected": "日本东京",
+            "hit": true
+          },
+          "weight": {
+            "expected": "2kg",
+            "hit": true
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "none",
+        "risk_score": 0.0,
+        "reasons": [],
+        "keyword_coverage_recall": 0.6,
+        "question_answer_overlap": 0.5
+      }
+    },
+    {
+      "id": "LOG-003",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "medium",
+      "knowledge_point": "清关异常处理流程",
+      "question": "我的包裹显示'清关中'已经5天了，正常吗？该怎么办？",
+      "llm_output": "清关停留5天属于正常范围（一般国际包裹清关时效3-7个工作日，节假日顺延）。可能原因：①海关例行抽查；②需补充申报材料；③商品归类待确认。建议：①再耐心等待2-3天；②拨打物流商客服电话查询具体原因；③如收到补材料通知请及时配合提供发票、支付凭证等。",
+      "retrieved_contexts_top3": [
+        "清关停留5天属于正常范围（一般国际包裹清关时效3-7个工作日，节假日顺延）",
+        "可能原因：①海关例行抽查",
+        "②需补充申报材料"
+      ],
+      "reference_answer": "清关停留5天属于正常范围（一般国际包裹清关时效3-7个工作日，节假日顺延）。可能原因：①海关例行抽查；②需补充申报材料；③商品归类待确认。建议：①再耐心等待2-3天；②拨打物流商客服电话查询具体原因；③如收到补材料通知请及时配合提供发票、支付凭证等。",
+      "latency_ms": 0.01,
+      "error": null,
+      "accuracy_score": 0.633,
+      "passed": true,
+      "grade": "C",
+      "keyword_metrics": {
+        "hit_count": 1,
+        "total_expected": 5,
+        "recall": 0.2,
+        "hit_keywords": [
+          "正常"
+        ],
+        "miss_keywords": [
+          "3-7天",
+          "联系客服",
+          "提供材料",
+          "海关抽查"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 1.0,
+        "overlap_coefficient": 1.0,
+        "cosine_like": 1.0,
+        "composite_score": 1.0
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.9,
+        "supported_ratio": 1.0,
+        "supported_count": 7,
+        "total_claims": 7,
+        "unsupported_claims": [],
+        "penalty_from_patterns": 0.0
+      },
+      "entity_alignment": {
+        "aligned_count": 1,
+        "total_slots": 2,
+        "accuracy": 0.5,
+        "per_slot_results": {
+          "status": {
+            "expected": "清关中",
+            "hit": false
+          },
+          "duration": {
+            "expected": "5天",
+            "hit": true
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "medium",
+        "risk_score": 0.42,
+        "reasons": [
+          "关键信息覆盖率过低(20%)，缺关键词：3-7天、联系客服、提供材料、海关抽查",
+          "实体[status=清关中]在回答中缺失"
+        ],
+        "keyword_coverage_recall": 0.2,
+        "question_answer_overlap": 0.2564
+      }
+    },
+    {
+      "id": "LOG-004",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "medium",
+      "knowledge_point": "一件代发物流SOP",
+      "question": "跨境电商一件代发模式下，物流单号什么时候可以提供给买家？",
+      "llm_output": "一件代发模式下，物流单号提供时间节点：①普通订单：仓库出库扫描后24小时内可生成有效单号并同步给买家；②大促期间（618/双11/黑五）：承诺48小时内出库并上传单号；③建议：等包裹有第一条'揽收成功'扫描记录后再同步买家，避免空单号投诉。",
+      "retrieved_contexts_top3": [
+        "一件代发模式下，物流单号提供时间节点：①普通订单：仓库出库扫描后24小时内可生成有效单号并同步给买家"
+      ],
+      "reference_answer": "一件代发模式下，物流单号提供时间节点：①普通订单：仓库出库扫描后24小时内可生成有效单号并同步给买家；②大促期间（618/双11/黑五）：承诺48小时内出库并上传单号；③建议：等包裹有第一条'揽收成功'扫描记录后再同步买家，避免空单号投诉。",
+      "latency_ms": 0.01,
+      "error": null,
+      "accuracy_score": 0.875,
+      "passed": true,
+      "grade": "A",
+      "keyword_metrics": {
+        "hit_count": 3,
+        "total_expected": 5,
+        "recall": 0.6,
+        "hit_keywords": [
+          "24小时",
+          "48小时",
+          "出库扫描"
+        ],
+        "miss_keywords": [
+          "发货后",
+          "物流揽收"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 1.0,
+        "overlap_coefficient": 1.0,
+        "cosine_like": 1.0,
+        "composite_score": 1.0
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.9,
+        "supported_ratio": 1.0,
+        "supported_count": 3,
+        "total_claims": 3,
+        "unsupported_claims": [],
+        "penalty_from_patterns": 0.0
+      },
+      "entity_alignment": {
+        "aligned_count": 1,
+        "total_slots": 1,
+        "accuracy": 1.0,
+        "per_slot_results": {
+          "model": {
+            "expected": "一件代发",
+            "hit": true
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "none",
+        "risk_score": 0.0,
+        "reasons": [],
+        "keyword_coverage_recall": 0.6,
+        "question_answer_overlap": 0.6078
+      }
+    },
+    {
+      "id": "LOG-005",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "easy",
+      "knowledge_point": "FBA头程物流对比",
+      "question": "德国FBA头程物流，海运和空运各需要多少天？费用差距大吗？",
+      "llm_output": "德国FBA头程：①海运快船：25-35个自然日入仓，约8-12元/kg（100kg起）；②空运专线：7-12个工作日入仓，约35-45元/kg；③快递直发（DHL/UPS）：3-5天入仓，约60-80元/kg。空运费用约为海运的3-5倍，适合补货急单。",
+      "retrieved_contexts_top3": [
+        "德国FBA头程：①海运快船：25-35个自然日入仓，约8-12元/kg（100kg起）",
+        "②空运专线：7-12个工作日入仓，约35-45元/kg"
+      ],
+      "reference_answer": "德国FBA头程：①海运快船：25-35个自然日入仓，约8-12元/kg（100kg起）；②空运专线：7-12个工作日入仓，约35-45元/kg；③快递直发（DHL/UPS）：3-5天入仓，约60-80元/kg。空运费用约为海运的3-5倍，适合补货急单。",
+      "latency_ms": 0.01,
+      "error": null,
+      "accuracy_score": 0.7455,
+      "passed": true,
+      "grade": "B",
+      "keyword_metrics": {
+        "hit_count": 1,
+        "total_expected": 4,
+        "recall": 0.25,
+        "hit_keywords": [
+          "FBA头程"
+        ],
+        "miss_keywords": [
+          "海运25-35天",
+          "空运7-12天",
+          "费用差距3-5倍"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 1.0,
+        "overlap_coefficient": 1.0,
+        "cosine_like": 1.0,
+        "composite_score": 1.0
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.9,
+        "supported_ratio": 1.0,
+        "supported_count": 4,
+        "total_claims": 4,
+        "unsupported_claims": [],
+        "penalty_from_patterns": 0.0
+      },
+      "entity_alignment": {
+        "aligned_count": 2,
+        "total_slots": 2,
+        "accuracy": 1.0,
+        "per_slot_results": {
+          "destination": {
+            "expected": "德国FBA",
+            "hit": true
+          },
+          "modes": {
+            "expected": [
+              "海运",
+              "空运"
+            ],
+            "hit": true
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "medium",
+        "risk_score": 0.42,
+        "reasons": [
+          "关键信息覆盖率过低(25%)，缺关键词：海运25-35天、空运7-12天、费用差距3-5倍",
+          "实体[modes=['海运', '空运']]在回答中缺失"
+        ],
+        "keyword_coverage_recall": 0.25,
+        "question_answer_overlap": 0.3778
+      }
+    }
+  ]
+}
