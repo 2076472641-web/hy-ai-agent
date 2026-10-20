@@ -1,0 +1,45 @@
+# ============================================================
+# 星途环球·跨境售后RAG智能问答系统 - 依赖清单
+# ============================================================
+# 说明：核心代码为 Mock + 降级兼容设计，下列包均为"可选依赖"
+#   - 只要装了 Python 3.9+，就能跑通 CLI、Mock评测、FastAPI（全部核心功能）
+#   - 真实大模型/向量库/OCR 再按需安装对应依赖即可
+# ============================================================
+
+# ---------- 核心框架（必须）----------
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.6.0
+httpx>=0.27.0
+python-dotenv>=1.0.0
+
+# ---------- 简历模块1：数据集搭建与预处理（按需）----------
+# 简历：PyMuPDF 解析电子文档
+PyMuPDF>=1.23.0
+# 简历：python-docx 解析 Word 文档
+python-docx>=1.1.0
+# 简历：PaddleOCR 提取外文扫描件图文（按需，体积较大）
+# paddleocr>=2.7.0
+# paddlepaddle>=2.6.0
+
+# ---------- 简历模块2：Milvus向量库（🔥 装了就自动启用，没装自动回退Mock）----------
+# 【新手必装】要真实Milvus就装下面3个（推荐版本：pymilvus 2.4.x 稳定版）
+#   1. 关闭代理: $env:HTTP_PROXY=$null; $env:HTTPS_PROXY=$null; $env:http_proxy=$null; $env:https_proxy=$null
+#   2. 阿里云镜像安装: pip install "pymilvus>=2.4.0,<2.6.0" grpcio protobuf -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pymilvus>=2.4.0,<2.6.0
+grpcio>=1.60.0
+protobuf>=4.25.0
+# milvus-model>=0.2.0   # （可选）Milvus官方稀疏向量/BM25插件，默认稀疏索引用Python内置实现，不需要装这个
+
+# ---------- 简历模块3：Embedding + 重排序（按需，默认使用Mock）----------
+# sentence-transformers>=2.6.0   # BGE-M3 稠密向量 + CrossEncoder 重排序
+# transformers>=4.38.0
+# torch>=2.1.0
+
+# ---------- 简历模块4：评测（如需接入Ragas官方框架）----------
+# ragas>=0.1.0
+# datasets>=2.18.0
+
+# ---------- 工具 ----------
+# 中文分词（可选，如需要更精准的稀疏关键词分词）
+# jieba>=0.42.1

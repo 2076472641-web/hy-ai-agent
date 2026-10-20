@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>途景汇文旅规划平台</title>
+    <!-- Flatpickr 日历组件 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            background-color: #f4f7fa;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 30px;
+        }
+        .box {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #00000018;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .item {
+            flex: 1;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 32px;
+            background: #2596be;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1e7b9c;
+        }
+        #result-area {
+            margin-top:12px;
+            padding:16px;
+            border:1px solid #eee;
+            border-radius:8px;
+            line-height:2;
+            font-size:16px;
+            white-space: pre-wrap;
+        }
+        .error-text{
+            color:#d63031;
+        }
+        /* Flatpickr 日历样式适配 */
+        .flatpickr-input {
+            cursor: pointer !important;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>途景汇 - 多智能体旅游行程规划</h1>
+
+    <div class="box">
+        <div class="row">
+            <div class="item">
+                <label>出发城市</label>
+                <input id="origin" placeholder="可不填写" value="">
+            </div>
+            <div class="item">
+                <label>目的地城市</label>
+                <input id="destination" placeholder="例如：上海" value="上海">
+            </div>
+        </div>
+        <div class="row">
+            <div class="item">
+                <label>出行日期</label>
+                <input id="dates" placeholder="点击选择日期" value="" readonly>
+            </div>
+            <div class="item">
+                <label>出行天数</label>
+                <input id="days" type="number" value="3">
+            </div>
+            <div class="item">
+                <label>预算档位</label>
+                <select id="budget">
+                    <option value="经济型">经济型</option>
+                    <option value="标准" selected>标准</option>
+                    <option value="高端">高端</option>
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <label>出行偏好（多个偏好使用逗号隔开）</label>
+            <input id="preferences" placeholder="美食,自然风光,人文古迹" value="美食,自然风光">
+        </div>
+        <br>
+        <button onclick="sendPlan()">生成旅游方案</button>
+    </div>
+
+    <div class="box">
+        <h3>📋 规划结果</h3>
+        <div id="result-area">等待生成行程方案……</div>
+    </div>
+</div>
+
+<script>
+const API_URL = "http://localhost:8000/api/trip-plan";
+const resultDom = document.getElementById("result-area");
+
+async function sendPlan() {
+    const origin = document.getElementById("origin").value;
+    const destination = document.getElementById("destination").value;
+    const dates = document.getElementById("dates").value;
+    const days = parseInt(document.getElementById("days").value);
+    const budget = document.getElementById("budget").value;
+    const preferenceStr = document.getElementById("preferences").value;
+    const preferences = preferenceStr.split(",").map(item => item.trim()).filter(Boolean);
+
+    resultDom.innerText = "正在智能规划行程，请稍候...";
+
+    try {
+        const resp = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                origin: origin,
+                destination: destination,
+                dates: dates,
+                days: days,
+                preferences: preferences,
+                budget: budget
+            })
+        });
+        const data = await resp.json();
+        console.log("后端完整返回：", data); // 打开浏览器F12控制台，可以看到完整返回结构
+
+        if (!resp.ok) {
+            resultDom.className = "error-text";
+            resultDom.innerText = "行程生成失败，请检查填写信息后重新尝试！";
+            return;
+        }
+
+        resultDom.className = "";
+        // 临时调试：展示完整返回JSON，找到真正存放行程文字的键名
+        resultDom.innerText = JSON.stringify(data, null, 2);
+
+    } catch (err) {
+        resultDom.className = "error-text";
+        resultDom.innerText = "网络连接失败，请确认系统服务已启动，稍后重试！";
+    }
+}
+</script>
+
+<!-- Flatpickr 日历组件 -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+<script>
+    // 初始化日期选择器
+    flatpickr("#dates", {
+        locale: "zh",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        disableMobile: true,
+        animate: true,
+    });
+</script>
+</body>
+</html>

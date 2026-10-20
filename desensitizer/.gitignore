@@ -1,0 +1,14 @@
+<<<<<<< HEAD
+__pycache__/
+*.pyc
+api_key.txt
+.venv/
+venv/
+面试讲解手册.md
+=======
+**/node_modules/
+dist/
+.vite/
+*.log
+.env
+>>>>>>> b3cd9779b3e17e41250fd0e3feea87aa998efb55

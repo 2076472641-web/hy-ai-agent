@@ -1,0 +1,307 @@
+{
+  "metadata": {
+    "run_at": "2026-08-01 21:32:34",
+    "mode": "mock",
+    "api_base": null,
+    "mock_noise": 0.8
+  },
+  "summary": {
+    "summary": {
+      "total_cases": 3,
+      "passed": 0,
+      "failed": 3,
+      "pass_rate": 0.0,
+      "pass_rate_percent": "0.0%",
+      "avg_accuracy_score": 0.0706,
+      "execution_seconds": 0.02
+    },
+    "metrics_average": {
+      "avg_keyword_recall": 0.0,
+      "avg_semantic_similarity": 0.0506,
+      "avg_faithfulness": 0.2101,
+      "avg_entity_accuracy": 0.0
+    },
+    "hallucination_distribution": {
+      "high": 3,
+      "medium": 0,
+      "low": 0,
+      "none": 0,
+      "high_ratio": 1.0
+    },
+    "grade_distribution": {
+      "F": 3
+    },
+    "latency_statistics": {
+      "count": 3,
+      "avg_ms": 0.24,
+      "min_ms": 0.04,
+      "max_ms": 0.63,
+      "p50_ms": 0.05,
+      "p95_ms": 0.63
+    },
+    "category_breakdown": {
+      "cross_border_logistics": {
+        "total": 3,
+        "passed": 0,
+        "failed": 3,
+        "pass_rate": 0.0
+      }
+    },
+    "difficulty_breakdown": {
+      "easy": {
+        "total": 2,
+        "passed": 0,
+        "failed": 2,
+        "pass_rate": 0.0
+      },
+      "medium": {
+        "total": 1,
+        "passed": 0,
+        "failed": 1,
+        "pass_rate": 0.0
+      }
+    },
+    "timestamp": {
+      "start": 1785591154.5784886,
+      "end": 1785591154.60159
+    }
+  },
+  "cases": [
+    {
+      "id": "LOG-001",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "easy",
+      "knowledge_point": "国际物流方式选择与时效报价",
+      "question": "从中国深圳发一件500g的包裹到美国纽约，用什么物流方式最便宜？大概需要几天？",
+      "llm_output": "全球第一的物流方案是：只需要30774元，99.99%准确率。",
+      "retrieved_contexts_top3": [
+        "500g包裹从深圳发往纽约，推荐使用ePacket（邮政小包）最经济，运费约35-50元人民币，时效约7-15个工作日"
+      ],
+      "reference_answer": "500g包裹从深圳发往纽约，推荐使用ePacket（邮政小包）最经济，运费约35-50元人民币，时效约7-15个工作日；如需更快可选择DHL/UPS快递，约3-5天，运费约120-180元。",
+      "latency_ms": 0.63,
+      "error": null,
+      "accuracy_score": 0.0656,
+      "passed": false,
+      "grade": "F",
+      "keyword_metrics": {
+        "hit_count": 0,
+        "total_expected": 4,
+        "recall": 0.0,
+        "hit_keywords": [],
+        "miss_keywords": [
+          "邮政小包",
+          "ePacket",
+          "7-15天",
+          "15-25天"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 0.0169,
+        "overlap_coefficient": 0.0606,
+        "cosine_like": 0.0449,
+        "composite_score": 0.0384
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.2077,
+        "supported_ratio": 0.0,
+        "supported_count": 0,
+        "total_claims": 2,
+        "unsupported_claims": [
+          "全球第一的物流方案是：只需要30774元，99",
+          "99%准确率"
+        ],
+        "penalty_from_patterns": 0.1
+      },
+      "entity_alignment": {
+        "aligned_count": 0,
+        "total_slots": 3,
+        "accuracy": 0.0,
+        "per_slot_results": {
+          "origin": {
+            "expected": "深圳",
+            "hit": false
+          },
+          "destination": {
+            "expected": "美国纽约",
+            "hit": false
+          },
+          "weight": {
+            "expected": "500g",
+            "hit": false
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "high",
+        "risk_score": 0.94,
+        "reasons": [
+          "关键信息覆盖率过低(0%)，缺关键词：邮政小包、ePacket、7-15天、15-25天",
+          "实体[origin=深圳]在回答中缺失",
+          "实体[destination=美国纽约]在回答中缺失",
+          "实体[weight=500g]在回答中缺失",
+          "命中幻觉风险特征模式：extreme_claim",
+          "与参考答案相似度仅0.04，存在严重信息偏差"
+        ],
+        "keyword_coverage_recall": 0.0,
+        "question_answer_overlap": 0.1613
+      }
+    },
+    {
+      "id": "LOG-002",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "easy",
+      "knowledge_point": "日本线物流渠道对比",
+      "question": "发往日本东京的2kg包裹，有哪些物流渠道可选？",
+      "llm_output": "全球第一的物流方案是：只需要99.99%准确率，3473元。",
+      "retrieved_contexts_top3": [
+        "2kg包裹发日本东京可选渠道：①日本专线空运：约3-5天，运费45-60元",
+        "②EMS国际特快：约4-7天，运费80-110元"
+      ],
+      "reference_answer": "2kg包裹发日本东京可选渠道：①日本专线空运：约3-5天，运费45-60元；②EMS国际特快：约4-7天，运费80-110元；③DHL/UPS商业快递：约2-4天，运费150-200元；④海运小包：约15-25天，运费25-35元。",
+      "latency_ms": 0.05,
+      "error": null,
+      "accuracy_score": 0.0747,
+      "passed": false,
+      "grade": "F",
+      "keyword_metrics": {
+        "hit_count": 0,
+        "total_expected": 5,
+        "recall": 0.0,
+        "hit_keywords": [],
+        "miss_keywords": [
+          "EMS",
+          "DHL",
+          "日本专线",
+          "3-7天",
+          "5-10天"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 0.0102,
+        "overlap_coefficient": 0.0303,
+        "cosine_like": 0.0453,
+        "composite_score": 0.0268
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.2054,
+        "supported_ratio": 0.0,
+        "supported_count": 0,
+        "total_claims": 2,
+        "unsupported_claims": [
+          "全球第一的物流方案是：只需要99",
+          "99%准确率，3473元"
+        ],
+        "penalty_from_patterns": 0.1
+      },
+      "entity_alignment": {
+        "aligned_count": 0,
+        "total_slots": 2,
+        "accuracy": 0.0,
+        "per_slot_results": {
+          "destination": {
+            "expected": "日本东京",
+            "hit": false
+          },
+          "weight": {
+            "expected": "2kg",
+            "hit": false
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "high",
+        "risk_score": 0.82,
+        "reasons": [
+          "关键信息覆盖率过低(0%)，缺关键词：EMS、DHL、日本专线、3-7天、5-10天",
+          "实体[destination=日本东京]在回答中缺失",
+          "实体[weight=2kg]在回答中缺失",
+          "命中幻觉风险特征模式：extreme_claim",
+          "与参考答案相似度仅0.03，存在严重信息偏差"
+        ],
+        "keyword_coverage_recall": 0.0,
+        "question_answer_overlap": 0.1111
+      }
+    },
+    {
+      "id": "LOG-003",
+      "category": "cross_border_logistics",
+      "category_name": "跨境物流咨询",
+      "difficulty": "medium",
+      "knowledge_point": "清关异常处理流程",
+      "question": "我的包裹显示'清关中'已经5天了，正常吗？该怎么办？",
+      "llm_output": "全球第一的物流方案是：只需要99.99%准确率，88215元。",
+      "retrieved_contexts_top3": [
+        "清关停留5天属于正常范围（一般国际包裹清关时效3-7个工作日，节假日顺延）",
+        "可能原因：①海关例行抽查",
+        "②需补充申报材料"
+      ],
+      "reference_answer": "清关停留5天属于正常范围（一般国际包裹清关时效3-7个工作日，节假日顺延）。可能原因：①海关例行抽查；②需补充申报材料；③商品归类待确认。建议：①再耐心等待2-3天；②拨打物流商客服电话查询具体原因；③如收到补材料通知请及时配合提供发票、支付凭证等。",
+      "latency_ms": 0.04,
+      "error": null,
+      "accuracy_score": 0.0716,
+      "passed": false,
+      "grade": "F",
+      "keyword_metrics": {
+        "hit_count": 0,
+        "total_expected": 5,
+        "recall": 0.0,
+        "hit_keywords": [],
+        "miss_keywords": [
+          "正常",
+          "3-7天",
+          "联系客服",
+          "提供材料",
+          "海关抽查"
+        ]
+      },
+      "semantic_similarity": {
+        "jaccard": 0.0291,
+        "overlap_coefficient": 0.1818,
+        "cosine_like": 0.0681,
+        "composite_score": 0.0866
+      },
+      "faithfulness": {
+        "faithfulness_score": 0.2173,
+        "supported_ratio": 0.0,
+        "supported_count": 0,
+        "total_claims": 2,
+        "unsupported_claims": [
+          "全球第一的物流方案是：只需要99",
+          "99%准确率，88215元"
+        ],
+        "penalty_from_patterns": 0.1
+      },
+      "entity_alignment": {
+        "aligned_count": 0,
+        "total_slots": 2,
+        "accuracy": 0.0,
+        "per_slot_results": {
+          "status": {
+            "expected": "清关中",
+            "hit": false
+          },
+          "duration": {
+            "expected": "5天",
+            "hit": false
+          }
+        }
+      },
+      "hallucination": {
+        "risk_level": "high",
+        "risk_score": 1.0,
+        "reasons": [
+          "关键信息覆盖率过低(0%)，缺关键词：正常、3-7天、联系客服、提供材料、海关抽查",
+          "实体[status=清关中]在回答中缺失",
+          "实体[duration=5天]在回答中缺失",
+          "命中幻觉风险特征模式：extreme_claim",
+          "回答与问题重合度过低(0.03)，可能跑题",
+          "与参考答案相似度仅0.09，存在严重信息偏差"
+        ],
+        "keyword_coverage_recall": 0.0,
+        "question_answer_overlap": 0.0256
+      }
+    }
+  ]
+}

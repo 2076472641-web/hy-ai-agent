@@ -1,0 +1,37 @@
+
+# ============================================================
+# 途景汇 - 通用 Python 基础镜像
+# ============================================================
+FROM python:3.11-slim
+
+LABEL maintainer="途景汇团队"
+LABEL description="文旅多智能体一体化系统"
+
+# 系统依赖（已替换清华Debian国内源，解决下载中断EOF报错）
+RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list \
+    && sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list \
+    && apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# 创建工作目录
+WORKDIR /app
+
+# 复制依赖文件
+COPY requirements.txt .
+
+# 安装 Python 依赖
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 复制项目文件
+COPY . .
+
+# 创建必要目录
+RUN mkdir -p data/checkpoints models/lora models/lora-output data/train
+
+# 环境变量
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# 默认命令
+CMD ["python", "-c", "print('途景汇文旅多智能体系统容器已启动')"]
