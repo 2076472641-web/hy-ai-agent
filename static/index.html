@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 文档脱敏工具</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .container { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+  .sub { color: #6e6e73; margin-bottom: 32px; font-size: 15px; }
+
+  .dropzone {
+    border: 2px dashed #c7c7cc;
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    background: #fff;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .dropzone.dragover {
+    border-color: #0071e3;
+    background: #f0f7ff;
+  }
+  .dropzone .icon { font-size: 48px; margin-bottom: 12px; }
+  .dropzone .title { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+  .dropzone .hint { color: #86868b; font-size: 14px; }
+
+  .status {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #fff;
+    display: none;
+  }
+  .status.show { display: block; }
+  .status .loading {
+    display: flex; align-items: center; gap: 10px;
+    color: #0071e3;
+  }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2px solid #c7c7cc;
+    border-top-color: #0071e3;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .result {
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    display: none;
+  }
+  .result.show { display: block; }
+  .result h2 { font-size: 18px; margin-bottom: 12px; }
+  .result .meta { color: #86868b; font-size: 13px; margin-bottom: 16px; }
+  .result pre {
+    background: #f5f5f7;
+    padding: 16px;
+    border-radius: 8px;
+    max-height: 400px;
+    overflow: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 20px;
+    background: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn:hover { background: #0077ed; }
+  .error {
+    margin-top: 20px;
+    padding: 16px;
+    background: #fff2f2;
+    color: #d70015;
+    border-radius: 10px;
+    display: none;
+    white-space: pre-wrap;
+  }
+  .error.show { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>AI 文档脱敏工具</h1>
+  <p class="sub">把商业 PRD / 产品文档拖进来，自动剔除公司名、人名、金额，输出纯技术需求清单。</p>
+
+  <div class="dropzone" id="dropzone">
+    <div class="icon">📄</div>
+    <div class="title">把 .md / .txt 文件拖到这里</div>
+    <div class="hint">或者点击选择文件</div>
+    <input type="file" id="fileInput" accept=".md,.txt,.markdown" hidden>
+  </div>
+
+  <div class="status" id="status">
+    <div class="loading">
+      <div class="spinner"></div>
+      <span>正在调用 MiniMax 处理中，约 30~60 秒...</span>
+    </div>
+  </div>
+
+  <div class="error" id="error"></div>
+
+  <div class="result" id="result">
+    <h2>✅ 脱敏完成</h2>
+    <div class="meta" id="meta"></div>
+    <pre id="preview"></pre>
+    <a class="btn" id="downloadBtn" download>下载 .md 文件</a>
+  </div>
+</div>
+
+<script>
+const dz = document.getElementById('dropzone');
+const fi = document.getElementById('fileInput');
+const status = document.getElementById('status');
+const errBox = document.getElementById('error');
+const result = document.getElementById('result');
+const preview = document.getElementById('preview');
+const meta = document.getElementById('meta');
+const dlBtn = document.getElementById('downloadBtn');
+
+dz.addEventListener('click', () => fi.click());
+fi.addEventListener('change', e => { if (e.target.files[0]) upload(e.target.files[0]); });
+
+['dragover', 'dragenter'].forEach(ev =>
+  dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('dragover'); }));
+['dragleave', 'drop'].forEach(ev =>
+  dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('dragover'); }));
+dz.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0];
+  if (f) upload(f);
+});
+
+function upload(file) {
+  errBox.classList.remove('show');
+  result.classList.remove('show');
+  status.classList.add('show');
+
+  const fd = new FormData();
+  fd.append('file', file);
+
+  fetch('/api/desensitize', { method: 'POST', body: fd })
+    .then(r => r.json().then(d => ({ ok: r.ok, data: d })))
+    .then(({ ok, data }) => {
+      status.classList.remove('show');
+      if (!ok) {
+        errBox.textContent = '❌ ' + (data.error || '未知错误');
+        errBox.classList.add('show');
+        return;
+      }
+      preview.textContent = data.content;
+      meta.textContent = `输出 ${data.chars} 字符 · 文件名：${data.filename}`;
+      const blob = new Blob([data.content], { type: 'text/markdown;charset=utf-8' });
+      dlBtn.href = URL.createObjectURL(blob);
+      dlBtn.download = data.filename;
+      result.classList.add('show');
+    })
+    .catch(e => {
+      status.classList.remove('show');
+      errBox.textContent = '❌ 网络错误: ' + e;
+      errBox.classList.add('show');
+    });
+}
+</script>
+</body>
+</html>
